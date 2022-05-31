@@ -1,0 +1,19 @@
+html,
+body {
+    height: 100%;
+    background-image: url('../../../public/images/sign-in-background.png');
+}
+
+h1 {
+    color: white;
+}
+
+.MuiGrid-root {
+    height: 100%;
+    
+}
+
+#root {
+    height: 100%;
+    display: flex;
+}

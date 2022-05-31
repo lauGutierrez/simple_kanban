@@ -1,5 +1,8 @@
 {
+    "app-name": "Simple Kanban",
+    "greeting": "Bienvenido",
     "sign-in": "Iniciar sesión",
+    "signed-in": "Estás logueado",
     "sign-out": "Cerrar sesión",
     "sign-up": "Registrarse",
     "email-address": "Dirección de correo",
