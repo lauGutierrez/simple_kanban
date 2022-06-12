@@ -32,7 +32,7 @@ const Header = (props) => {
                     <Grid item>
                         <Grid container spacing={3} direction="row" justifyContent="space-between" alignItems="center">
                             <Grid item>
-                                <Link to={paths.login}>{t('sign-in').toUpperCase()}</Link>
+                                <Link to={paths.login}>{t('change-user').toUpperCase()}</Link>
                             </Grid>
                             <Grid item>
                                 <Tooltip title={ context.email }>

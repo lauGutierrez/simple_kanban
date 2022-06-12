@@ -7,5 +7,6 @@
     "sign-up": "Registrarse",
     "email-address": "Dirección de correo",
     "password": "Contraseña",
-    "no-account-sign-up": "¿No tienes cuenta? Regístrate"
+    "no-account-sign-up": "¿No tienes cuenta? Regístrate",
+    "change-user": "Cambiar usuario"
 }

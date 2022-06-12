@@ -7,5 +7,6 @@
     "sign-up": "Sign Up",
     "email-address": "Email address",
     "password": "Password",
-    "no-account-sign-up": "Don't have an account? Sign Up"
+    "no-account-sign-up": "Don't have an account? Sign Up",
+    "change-user": "Change user"
 }
