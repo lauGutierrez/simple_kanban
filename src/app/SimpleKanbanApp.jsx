@@ -1,19 +1,34 @@
 import './SimpleKanbanApp.scss';
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 
-import LoadingPage from '../components/global/loadingPage/LoadingPage';
-import SignInView from '../components/signInView/SignInView';
+import { Router, Route, Routes } from "react-router-dom";
+
+import LoadingState from '../components/LoadingState/LoadingState';
+import SignIn from '../components/SignIn/SignIn';
+import Home from '../components/Home/Home';
+import Context from '../context/Context';
 import i18n from '../i18n/i18n';
 
 const SimpleKanbanApp = () => {
 
-  const onSignInSuccess = (data) => {
-    console.log(data);
-  };
+  const [uid, setUid] = useState(null);
+  const [email, setEmail] = useState('');
+
+  const onSignInSuccess = (uid, email) => {
+    setUid(uid);
+    setEmail(email);
+  }
 
   return (
-    <Suspense fallback={<LoadingPage />}>
-        <SignInView onSignInSuccess={onSignInSuccess}/>
+    <Suspense fallback={<LoadingState />}>
+      <Context.Provider value={{'uid': uid, 'email': email}}>
+        <Router>
+          <Routes>
+            <Route exact path="/login" element={<SignIn onSignInSuccess={onSignInSuccess} redirectTo={"/"} />}></Route>
+            <Route exact path="/" element={<Home />}></Route>
+          </Routes>
+        </Router>
+      </Context.Provider>
     </Suspense>
   );
 }

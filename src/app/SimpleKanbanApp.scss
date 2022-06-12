@@ -1,4 +1,18 @@
+$darkest-color: #2E0E02;
+$darker-color: #581908;
+$main-color: #983628;
+$lighter-color: #E2AEDD;
+$lightest-color: #EBCBF4;
+
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
 }
 

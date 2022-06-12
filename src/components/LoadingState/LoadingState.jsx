@@ -2,7 +2,7 @@ import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-const LoadingPage = () => {
+const LoadingState = () => {
   return (
     <Box>
       <CircularProgress />
@@ -10,4 +10,4 @@ const LoadingPage = () => {
   );
 }
 
-export default LoadingPage;
+export default LoadingState;
