@@ -41,7 +41,10 @@ const SignIn = (props) => {
     }, []);
 
     if (signedIn) {
-        props.onSignInSuccess(firebase.auth().currentUser);
+        props.onSignInSuccess(
+            firebase.auth().currentUser.multiFactor.user.uid,
+            firebase.auth().currentUser.multiFactor.user.email
+        );
         return null;
     } else {
         return (

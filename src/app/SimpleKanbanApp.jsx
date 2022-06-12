@@ -1,8 +1,9 @@
 import './SimpleKanbanApp.scss';
 import React, { Suspense, useState } from 'react';
 
-import { Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import paths from '../paths/paths';
 import LoadingState from '../components/LoadingState/LoadingState';
 import SignIn from '../components/SignIn/SignIn';
 import Home from '../components/Home/Home';
@@ -24,8 +25,8 @@ const SimpleKanbanApp = () => {
       <Context.Provider value={{'uid': uid, 'email': email}}>
         <Router>
           <Routes>
-            <Route exact path="/login" element={<SignIn onSignInSuccess={onSignInSuccess} redirectTo={"/"} />}></Route>
-            <Route exact path="/" element={<Home />}></Route>
+            <Route path={paths.login} element={<SignIn onSignInSuccess={onSignInSuccess} redirectTo={paths.home} />}></Route>
+            <Route path={paths.home} element={<Home />}></Route>
           </Routes>
         </Router>
       </Context.Provider>

@@ -2,4 +2,9 @@
 
 header {
     background-color: $main-color !important;
+    a {
+        text-decoration: None;
+        color: white;
+        font-weight: 800;
+    }
 }
