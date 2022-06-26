@@ -10,5 +10,7 @@
     "no-account-sign-up": "Don't have an account? Sign Up",
     "change-user": "Change user",
     "open": "Open",
-    "new": "New"
+    "new": "New",
+    "created-at": "Created at",
+    "board-default-name": "New board"
 }

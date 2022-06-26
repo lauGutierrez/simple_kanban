@@ -1,4 +1,4 @@
-$darkest-color: 332e3c;
+$darkest-color: #332e3c;
 $darker-color: #846C5B;
 $main-color: #A29587;
 $lighter-color: #c4b2bc;
@@ -14,5 +14,18 @@ html, body, #root {
 
 body {
     margin: 0px;
+    background-color: $lightest-color  !important;
+}
+
+.MuiButton-containedPrimary{
+    background-color: $darkest-color !important;
+}
+
+.MuiButton-containedSecondary {
+    background-color: $lightest-color !important;
+}
+
+.action-buttons-container {
+    text-align: end;
 }
 

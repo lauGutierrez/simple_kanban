@@ -10,5 +10,7 @@
     "no-account-sign-up": "¿No tienes cuenta? Regístrate",
     "change-user": "Cambiar usuario",
     "open": "Abrir",
-    "new": "Nuevo"
+    "new": "Nuevo",
+    "created-at": "Creado el",
+    "board-default-name": "Nuevo tablero"
 }

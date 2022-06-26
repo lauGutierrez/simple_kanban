@@ -19,7 +19,7 @@ const boards = (state = [], action) => {
                 }
             );
         case 'DELETE_BOARD':
-            return state.boards.filter(
+            return state.filter(
                 (board) => board.id !== action.payload.board.id,
             );
         case 'ADD_TASK':
