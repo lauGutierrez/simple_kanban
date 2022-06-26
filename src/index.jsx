@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SimpleKanbanApp from './app/SimpleKanbanApp';
+import { Provider } from 'react-redux';
+import store from './services/redux/store.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SimpleKanbanApp />
+    <Provider store={store}>
+      <SimpleKanbanApp />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
