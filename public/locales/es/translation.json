@@ -8,5 +8,7 @@
     "email-address": "Dirección de correo",
     "password": "Contraseña",
     "no-account-sign-up": "¿No tienes cuenta? Regístrate",
-    "change-user": "Cambiar usuario"
+    "change-user": "Cambiar usuario",
+    "open": "Abrir",
+    "new": "Nuevo"
 }

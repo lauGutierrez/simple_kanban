@@ -8,5 +8,7 @@
     "email-address": "Email address",
     "password": "Password",
     "no-account-sign-up": "Don't have an account? Sign Up",
-    "change-user": "Change user"
+    "change-user": "Change user",
+    "open": "Open",
+    "new": "New"
 }

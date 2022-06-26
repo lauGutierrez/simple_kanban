@@ -1,35 +1,36 @@
 import './SimpleKanbanApp.scss';
-import React, { Suspense, useState } from 'react';
+import { useSelector } from 'react-redux';
+import React, { Suspense } from 'react';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import paths from '../paths/paths';
+import paths from '../router/paths';
 import LoadingState from '../components/LoadingState/LoadingState';
 import SignIn from '../components/SignIn/SignIn';
 import Home from '../components/Home/Home';
-import Context from '../context/Context';
 import i18n from '../i18n/i18n';
 
 const SimpleKanbanApp = () => {
 
-  const [uid, setUid] = useState(null);
-  const [email, setEmail] = useState('');
-
-  const onSignInSuccess = (uid, email) => {
-    setUid(uid);
-    setEmail(email);
-  }
+  const user = useSelector(state => state.user);
 
   return (
     <Suspense fallback={<LoadingState />}>
-      <Context.Provider value={{'uid': uid, 'email': email}}>
-        <Router>
-          <Routes>
-            <Route path={paths.login} element={<SignIn onSignInSuccess={onSignInSuccess} redirectTo={paths.home} />}></Route>
-            <Route path={paths.home} element={<Home />}></Route>
-          </Routes>
-        </Router>
-      </Context.Provider>
+      <Router>
+        {Object.keys(user).length !== 0 ? 
+          (
+            <Routes>
+              <Route exact path={paths.login} element={<SignIn redirectTo={paths.home} />}></Route>
+              <Route exact path={paths.home} element={<Home />}></Route>
+            </Routes>
+          ):
+          (
+            <Routes>
+              <Route path={paths.all} element={<SignIn redirectTo={paths.home} />}></Route>
+            </Routes>
+          )
+        }
+      </Router>
     </Suspense>
   );
 }

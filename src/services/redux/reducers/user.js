@@ -1,10 +1,10 @@
 
-const user = (state = { user: {} }, action) => {
+const user = (state = {}, action) => {
     switch (action.type) {
-        case 'SIGN_UP':
+        case 'SIGN_IN':
             return {
-                uid: action.payload.user.uid,
-                email: action.payload.user.email,
+                uid: action.payload.uid,
+                email: action.payload.email,
             };
         case 'SIGN_OUT':
             return {};

@@ -1,11 +1,11 @@
 
-import boardReducer from './board.js';
-import userReducer from './user.js';
+import boards from './boards';
+import user from './user';
 import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
-    boardReducer,
-    userReducer
+    boards,
+    user
 })
 
 export default reducer

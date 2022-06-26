@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 
 import './Header.scss';
 
-import Context from '../../context/Context';
-import paths from '../../paths/paths';
+import paths from '../../router/paths';
+import actions from '../../services/redux/actions/actions';
 
-import { useTranslation } from 'react-i18next';
+
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,10 +17,19 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Header = (props) => {
-    const context = useContext(Context);
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const user = useSelector(state => state.user);
+
+    const signOut = () => {
+        dispatch(actions.userActions.signOut());
+        navigate(paths.login);
+    }
 
     return (
         <AppBar position="static">
@@ -32,12 +43,17 @@ const Header = (props) => {
                     <Grid item>
                         <Grid container spacing={3} direction="row" justifyContent="space-between" alignItems="center">
                             <Grid item>
-                                <Link to={paths.login}>{t('change-user').toUpperCase()}</Link>
-                            </Grid>
-                            <Grid item>
-                                <Tooltip title={ context.email }>
+                                <Tooltip title={ user.email }>
                                     <IconButton >
                                         <Avatar />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+                            <Grid item>
+                                <Tooltip title={t('sign-out')}>
+                                    <IconButton onClick={signOut}>
+                                        <LogoutIcon >
+                                        </LogoutIcon>
                                     </IconButton>
                                 </Tooltip>
                             </Grid>
