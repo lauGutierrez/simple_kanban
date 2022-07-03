@@ -1,6 +1,7 @@
 const paths = {
   home: "/",
   login: "/login",
+  board: "/board/:boardId",
   all: "/*"
 };
 

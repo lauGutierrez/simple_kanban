@@ -1,0 +1,18 @@
+@import '../../app/SimpleKanbanApp.scss';
+
+.board-column {
+    height: 100%;
+    overflow-x: scroll;
+
+    .MuiCardHeader-root{
+        background-color: $lighter-color;
+    }
+
+    .MuiIconButton-root {
+        color: white !important;
+    }
+}
+
+.board-column-content {
+    height: 100%;
+}

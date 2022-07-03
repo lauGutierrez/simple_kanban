@@ -1,9 +1,11 @@
-import boardActions from './board';
+import boardCrudActions from './boardCrud';
+import selectedBoardActions from './selectedBoard';
 import userActions from './user';
 
 const actions = {
-    boardActions,
-    userActions
+    userActions,
+    boardCrudActions,
+    selectedBoardActions
 }
 
 export default actions;

@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import './BoardCard.scss';
+import './BoardColumn.scss';
 
-import actions from '../../../services/redux/actions/actions';
-import operations from '../../../services/firebase/firestore/operations';
+import actions from '../../services/redux/actions/actions';
+import operations from '../../services/firebase/firestore/operations';
 
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -20,42 +19,38 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 
-const BoardCard = (props) => {
+const BoardColumn = (props) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const [editionEnabled, setEditionEnabled] = useState(false);
-    const [name, setName] = useState(props.board.name);
-    const [description, setDescription] = useState(props.board.description);
+    const [name, setName] = useState(props.column.name);
 
 
-    const updateBoard = (id, name, description) => {
-        operations.boardOperations.updateBoard(id, name, description);
-        dispatch(actions.boardActions.updateBoard(id, name, description));
+    const updateColumn = (id, name) => {
+        operations.columnOperations.updateColumn(id, name);
+        dispatch(actions.columnCrudActions.updateColumn(id, name));
         setEditionEnabled(false);
     }
 
-    const deleteBoard = (id) => {
-        operations.boardOperations.deleteBoard(id);
-        dispatch(actions.boardActions.deleteBoard(id));
+    const deleteColumn = (id) => {
+        operations.columnOperations.deleteColumn(id);
+        dispatch(actions.columnCrudActions.deleteColumn(id));
     }
 
     const handleKeypress = (event) => {
         if (event.charCode === 13) {
-            updateBoard(
-                props.board.id, name, description
-            )
+            updateColumn(props.column.id, name);
         }
     }
 
     return (
-        <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
-            <Card className="board-card">
+        <Grid item xs={3}>
+            <Card className="board-column">
                 <CardHeader
-                    avatar={<Avatar className="board-avatar">{props.board.name.charAt(0)}</Avatar>}
                     title={editionEnabled ?
                         (
-                            <TextField id={`name-${props.board.id}`}
+                            <TextField id={`column-name-${props.column.id}`}
                                 label={t('name-field')}
                                 variant="standard"
                                 value={name}
@@ -64,19 +59,14 @@ const BoardCard = (props) => {
 
                         ) :
                         (
-                            props.board.name
+                            props.column.name
                         )
                     }
-                    subheader={`${t('created-at')} ${props.board.created}`}
                     action={editionEnabled ?
                         (
                             <React.Fragment>
                                 <IconButton color="primary"
-                                    onClick={
-                                        () => updateBoard(
-                                            props.board.id, name, description
-                                        )
-                                    }>
+                                    onClick={() => updateColumn(props.column.id, name)}>
                                     <SaveIcon />
                                 </IconButton>
                             </React.Fragment>
@@ -86,32 +76,19 @@ const BoardCard = (props) => {
                                 <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton color="secondary" onClick={() => deleteBoard(props.board.id)}>
+                                <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </React.Fragment>
                         )
                     }
                 />
-                <CardContent className="board-content">
-                    {editionEnabled ?
-                        (
-                            <TextField id={`description-${props.board.id}`}
-                                label={t('description-field')}
-                                variant="standard"
-                                value={description}
-                                onChange={(event) => setDescription(event.target.value)}
-                                onKeyPress={handleKeypress}/>
-
-                        ):
-                        (
-                            <Typography variant="h5">{props.board.description}</Typography>
-                        )
-                    }
+                <CardContent className="board-column-content">
+                    <Typography variant="h5">LISTA DE TAREAS</Typography>
                 </CardContent>
             </Card>
         </Grid>
     );
 }
 
-export default BoardCard;
+export default BoardColumn;

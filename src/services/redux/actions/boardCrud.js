@@ -1,6 +1,8 @@
+import actionTags from './actionsTags';
+
 const addBoard = (id, name, description, created) => {
     return {
-        type: "ADD_BOARD",
+        type: actionTags.ADD_BOARD,
         payload: {
             board: {
                 id: id,
@@ -14,7 +16,7 @@ const addBoard = (id, name, description, created) => {
 
 const updateBoard = (id, name, description) => {
     return {
-        type: "UPDATE_BOARD",
+        type: actionTags.UPDATE_BOARD,
         payload: {
             board: {
                 id: id,
@@ -27,7 +29,7 @@ const updateBoard = (id, name, description) => {
 
 const deleteBoard = (id) => {
     return {
-        type: "DELETE_BOARD",
+        type: actionTags.DELETE_BOARD,
         payload: {
             board: {
                 id: id
@@ -36,8 +38,16 @@ const deleteBoard = (id) => {
     }
 }
 
+const resetBoards = () => {
+    return {
+        type: actionTags.RESET_BOARDS,
+        payload: {}
+    }
+}
+
 export default {
     addBoard,
     updateBoard,
-    deleteBoard
+    deleteBoard,
+    resetBoards
 }

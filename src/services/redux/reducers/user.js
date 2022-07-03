@@ -1,12 +1,13 @@
+import actionTags from '../actions/actionsTags';
 
 const user = (state = {}, action) => {
     switch (action.type) {
-        case 'SIGN_IN':
+        case actionTags.SIGN_IN:
             return {
                 uid: action.payload.uid,
                 email: action.payload.email,
             };
-        case 'SIGN_OUT':
+        case actionTags.SIGN_OUT:
             return {};
         default:
             return state;

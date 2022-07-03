@@ -1,6 +1,8 @@
+import actionTags from './actionsTags';
+
 const signIn = (user) => {
     return {
-        type: "SIGN_IN",
+        type: actionTags.SIGN_IN,
         payload: {
             uid: user.uid,
             email: user.email
@@ -10,7 +12,7 @@ const signIn = (user) => {
 
 const signOut = () => {
     return {
-        type: "SIGN_OUT",
+        type: actionTags.SIGN_OUT,
         payload: {}
     }
 }

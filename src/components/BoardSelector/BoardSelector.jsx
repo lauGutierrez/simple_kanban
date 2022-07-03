@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import './BoardSelector.scss';
 
-import actions from '../../../services/redux/actions/actions';
-import operations from '../../../services/firebase/firestore/operations';
+import actions from '../../services/redux/actions/actions';
+import operations from '../../services/firebase/firestore/operations';
 
 import BoardCard from '../BoardCard/BoardCard';
 
@@ -25,9 +25,17 @@ const BoardSelector = (props) => {
         showAllBoards();
     }, []);
 
+    useEffect(() => {
+        return () => {
+            dispatch(
+                actions.boardCrudActions.resetBoards()
+            );
+        };
+    }, []);
+
     const showAllBoards = () => {
         operations.boardOperations.getAllBoards((id, data) => {
-            dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
+            dispatch(actions.boardCrudActions.addBoard(id, data.name, data.description, data.created));
         });
     }
 
@@ -36,7 +44,7 @@ const BoardSelector = (props) => {
         let description = t('board-default-description');
         let id = await operations.boardOperations.addBoard(name, description);
         await operations.boardOperations.getBoardById(id, (id, data) => {
-            dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
+            dispatch(actions.boardCrudActions.addBoard(id, data.name, data.description, data.created));
         });
     }
 
