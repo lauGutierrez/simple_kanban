@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -33,6 +34,19 @@ const SignIn = (props) => {
         ]
     };
 
+    const currentUser = useSelector(state => state.user);
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                setCurrentUser(
+                    user.multiFactor.user.uid,
+                    user.multiFactor.user.email
+                );
+            }
+        });
+    }, []);
+
     const setCurrentUser = (uid, email) => {
         dispatch(actions.userActions.signIn({
             uid: uid,
@@ -41,25 +55,28 @@ const SignIn = (props) => {
         navigate(props.redirectTo);
     }
 
-    return (
-        <div className="sign-in">
-            <Grid
-                container
-                spacing={1}
-                align="center"
-                justify="center"
-                direction="row">
-                <Grid item xs={12}>
-                    <Typography variant="h1" component="h1" className="app-name">
-                        {t('app-name')}
-                    </Typography>
+    if (currentUser) {
+        return null;
+    } else {
+        return (
+            <div className="sign-in">
+                <Grid
+                    container
+                    spacing={1}
+                    align="center"
+                    justify="center"
+                    direction="row">
+                    <Grid item xs={12}>
+                        <Typography variant="h1" component="h1" className="app-name">
+                            {t('app-name')}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                </Grid>
-            </Grid>
-        </div>
-    );
-
+            </div>
+        );
+    }
 }
 export default SignIn;

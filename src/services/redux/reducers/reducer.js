@@ -6,6 +6,6 @@ import { combineReducers } from 'redux';
 const reducer = combineReducers({
     boards,
     user
-})
+});
 
-export default reducer
+export default reducer;

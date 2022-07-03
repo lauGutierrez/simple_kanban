@@ -1,14 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Link } from "react-router-dom";
 
-import './Header.scss';
-
+import { firebase } from '../../services/firebase/firebase';
+import 'firebase/compat/auth';
 import paths from '../../router/paths';
 import actions from '../../services/redux/actions/actions';
 
-
+import './Header.scss';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -26,7 +25,8 @@ const Header = (props) => {
 
     const user = useSelector(state => state.user);
 
-    const signOut = () => {
+    const signOut = async () => {
+        await firebase.auth().signOut();
         dispatch(actions.userActions.signOut());
         navigate(paths.login);
     }

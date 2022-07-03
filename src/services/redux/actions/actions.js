@@ -1,8 +1,8 @@
-import boardsActions from './boards'
-import userActions from './user'
+import boardActions from './board';
+import userActions from './user';
 
 const actions = {
-    boardsActions,
+    boardActions,
     userActions
 }
 

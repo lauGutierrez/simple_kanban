@@ -12,5 +12,8 @@
     "open": "Open",
     "new": "New",
     "created-at": "Created at",
-    "board-default-name": "New board"
+    "board-default-name": "New board",
+    "board-default-description": "Board description",
+    "name-field": "Name",
+    "description-field": "Description"
 }

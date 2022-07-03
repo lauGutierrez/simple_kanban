@@ -12,5 +12,8 @@
     "open": "Abrir",
     "new": "Nuevo",
     "created-at": "Creado el",
-    "board-default-name": "Nuevo tablero"
+    "board-default-name": "Nuevo tablero",
+    "board-default-description": "Descripción del tablero",
+    "name-field": "Nombre",
+    "description-field": "Descripción"
 }

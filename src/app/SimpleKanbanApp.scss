@@ -1,8 +1,8 @@
-$darkest-color: #332e3c;
-$darker-color: #846C5B;
-$main-color: #A29587;
-$lighter-color: #c4b2bc;
-$lightest-color: #d8d4f2;
+$darkest-color: #32292F;
+$darker-color: #575366;
+$main-color: #5762d5;
+$lighter-color: #6e7dab;
+$lightest-color: #dbdaea;
 
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -18,7 +18,7 @@ body {
 }
 
 .MuiButton-containedPrimary{
-    background-color: $darkest-color !important;
+    background-color: $darker-color !important;
 }
 
 .MuiButton-containedSecondary {

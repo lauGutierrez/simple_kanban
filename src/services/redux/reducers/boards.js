@@ -14,7 +14,8 @@ const boards = (state = [], action) => {
                     return {
                         id: board.id,
                         name: action.payload.board.name,
-                        tasks: board.tasks
+                        description: action.payload.board.description,
+                        created: board.created
                     };
                 }
             );

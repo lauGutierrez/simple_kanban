@@ -1,0 +1,16 @@
+@import '../../../app/SimpleKanbanApp.scss';
+
+.board-card {
+    min-height: 250px;
+}
+.board-avatar {
+    background-color: $lighter-color !important;
+}
+
+.board-card-actions {
+    margin: 0px 10px 20px 10px !important;
+}
+
+.board-content .MuiTextField-root {
+    display: flex;
+}

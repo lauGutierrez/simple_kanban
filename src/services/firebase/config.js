@@ -1,5 +1,3 @@
-import firebase from 'firebase/compat/app';
-
 const firebaseConfig = {
     apiKey: "AIzaSyBUxniOGzBls3WhNZqIDAqlxigMChFwNJY",
     authDomain: "simple-kanban-1e545.firebaseapp.com",
@@ -9,6 +7,4 @@ const firebaseConfig = {
     appId: "1:1079516094624:web:84c37c28f818fe7fd9e9c5"
 };
 
-firebase.initializeApp(firebaseConfig);
-
-export { firebase };
+export default firebaseConfig;
