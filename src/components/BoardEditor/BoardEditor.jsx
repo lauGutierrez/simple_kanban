@@ -25,22 +25,7 @@ const BoardEditor = (props) => {
     const params = useParams();
 
     const board = useSelector(state => state.selectedBoard);
-    //const columns = useSelector(state => state.selectedBoard);
-
-    const columns = [
-        {
-            id: 1,
-            name: 'Columna 1',
-        },
-        {
-            id: 2,
-            name: 'Columna 2',
-        },
-        {
-            id: 3,
-            name: 'Columna 3',
-        }
-    ]
+    const columns = useSelector(state => state.columns);
 
     useEffect(() => {
         showBoard();
@@ -51,30 +36,52 @@ const BoardEditor = (props) => {
             dispatch(
                 actions.selectedBoardActions.resetSelectedBoard()
             );
+            dispatch(
+                actions.columnActions.resetColumns()
+            );
         };
     }, []);
 
     const showBoard = () => {
-        operations.boardOperations.getBoardById(params.boardId, (id, data) => {
-            dispatch(
-                actions.selectedBoardActions.setSelectedBoard(
-                    id, data.name, data.description, data.created
-                )
+        if (Object.keys(board).length === 0) {
+            operations.boardOperations.getBoardById(
+                params.boardId,
+                (id, data) => {
+                    dispatch(
+                        actions.selectedBoardActions.setSelectedBoard(
+                            id, data.name, data.description, data.created
+                        )
+                    );
+                }
             );
-        });
+            operations.columnOperations.getAllColumnsInBoard(
+                params.boardId,
+                (id, data) => {
+                    dispatch(
+                        actions.columnActions.addColumn(
+                            id, data.name
+                        )
+                    );
+                }
+            );
+        }
     }
 
-    const addColumn = () => {
-        console.log('add column requested');
+    const addColumn = async () => {
+        let name = t('column-default-name');
+        let id = await operations.columnOperations.addColumnToBoard(board.id, name);
+        dispatch(
+            actions.columnActions.addColumn(id, name)
+        );
     }
 
     return (
         <InternalView>
-            <Box p={5}>
+            <Box className="board-editor-container" p={5}>
                 <Grid container
                     direction="row"
                     spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className="board-columns-header">
                         <Grid container
                             direction="row"
                             spacing={2}
@@ -95,7 +102,7 @@ const BoardEditor = (props) => {
                         </Grid>
                     </Grid>
                     {columns.length !== 0 ?
-                        <Grid item xs={12} >
+                        <Grid item xs={12} className="board-columns-container">
                             <Box mt={2}>
                                 <Grid container
                                     spacing={3}
@@ -109,8 +116,8 @@ const BoardEditor = (props) => {
                             </Box>
                         </Grid>
                     :
-                    null
-                }
+                        null
+                    }
                 </Grid>
             </Box>
         </InternalView>

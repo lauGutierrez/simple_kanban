@@ -16,5 +16,9 @@
     "board-default-name": "New board",
     "board-default-description": "Board description",
     "name-field": "Name",
-    "description-field": "Description"
+    "description-field": "Description",
+    "column-default-name": "New column",
+    "add-task": "Add task",
+    "task-default-name": "New task",
+    "task-name-field": "Task description"
 }

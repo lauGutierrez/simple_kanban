@@ -28,15 +28,17 @@ const BoardSelector = (props) => {
     useEffect(() => {
         return () => {
             dispatch(
-                actions.boardCrudActions.resetBoards()
+                actions.boardActions.resetBoards()
             );
         };
     }, []);
 
     const showAllBoards = () => {
-        operations.boardOperations.getAllBoards((id, data) => {
-            dispatch(actions.boardCrudActions.addBoard(id, data.name, data.description, data.created));
-        });
+        if (!boards.length) {
+            operations.boardOperations.getAllBoards((id, data) => {
+                dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
+            });
+        }
     }
 
     const addBoard = async () => {
@@ -44,7 +46,7 @@ const BoardSelector = (props) => {
         let description = t('board-default-description');
         let id = await operations.boardOperations.addBoard(name, description);
         await operations.boardOperations.getBoardById(id, (id, data) => {
-            dispatch(actions.boardCrudActions.addBoard(id, data.name, data.description, data.created));
+            dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
         });
     }
 

@@ -2,7 +2,6 @@
 
 .board-column {
     height: 100%;
-    overflow-x: scroll;
 
     .MuiCardHeader-root{
         background-color: $lighter-color;
@@ -15,4 +14,6 @@
 
 .board-column-content {
     height: 100%;
+    overflow-y: scroll;
+    min-height: 500px;
 }

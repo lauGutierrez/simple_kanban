@@ -34,13 +34,13 @@ const BoardCard = (props) => {
 
     const updateBoard = (id, name, description) => {
         operations.boardOperations.updateBoard(id, name, description);
-        dispatch(actions.boardCrudActions.updateBoard(id, name, description));
+        dispatch(actions.boardActions.updateBoard(id, name, description));
         setEditionEnabled(false);
     }
 
     const deleteBoard = (id) => {
         operations.boardOperations.deleteBoard(id);
-        dispatch(actions.boardCrudActions.deleteBoard(id));
+        dispatch(actions.boardActions.deleteBoard(id));
     }
 
     const handleKeypress = (event) => {

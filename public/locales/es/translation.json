@@ -16,5 +16,9 @@
     "board-default-name": "Nuevo tablero",
     "board-default-description": "Descripción del tablero",
     "name-field": "Nombre",
-    "description-field": "Descripción"
+    "description-field": "Descripción",
+    "column-default-name": "Nueva columna",
+    "add-task": "Añadir tarea",
+    "task-default-name": "Nueva tarea",
+    "task-name-field": "Descripción de la tarea"
 }
