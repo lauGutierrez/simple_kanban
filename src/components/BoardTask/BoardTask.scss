@@ -1,1 +1,5 @@
 @import '../../app/SimpleKanbanApp.scss';
+
+.board-column-task {
+    background-color: $lightest-color !important;
+}

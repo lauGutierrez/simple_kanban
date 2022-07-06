@@ -102,19 +102,11 @@ const BoardEditor = (props) => {
                         </Grid>
                     </Grid>
                     {columns.length !== 0 ?
-                        <Grid item xs={12} className="board-columns-container">
-                            <Box mt={2}>
-                                <Grid container
-                                    spacing={3}
-                                    direction="row"
-                                    justifyContent="flex-start"
-                                    alignItems="center">
-                                    {columns.map((column) =>
-                                        <BoardColumn key={column.id} column={column}></BoardColumn>
-                                    )}
-                                </Grid>
-                            </Box>
-                        </Grid>
+                        <div className="board-columns-container">
+                            {columns.map((column) =>
+                                <BoardColumn key={column.id} column={column}></BoardColumn>
+                            )}
+                        </div>
                     :
                         null
                     }

@@ -100,7 +100,7 @@ const BoardCard = (props) => {
                         )
                     }
                 />
-                <CardContent className="board-card-content">
+                <CardContent className="board-card-content" onClick={() => { openBoard(props.board.id) }}>
                     {editionEnabled ?
                         (
                             <TextField id={`description-${props.board.id}`}
@@ -113,8 +113,7 @@ const BoardCard = (props) => {
                         ):
                         (
                             <Typography variant="h5"
-                                className="board-card-description"
-                                onClick={() => { openBoard(props.board.id) }}>
+                                className="board-card-description">
                                 {props.board.description}
                             </Typography>
                         )

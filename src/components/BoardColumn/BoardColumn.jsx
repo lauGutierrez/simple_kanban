@@ -76,66 +76,64 @@ const BoardColumn = (props) => {
     }
 
     return (
-        <Grid item xs={3}>
-            <Card className="board-column">
-                <CardHeader
-                    title={editionEnabled ?
-                        (
-                            <TextField id={`column-name-${props.column.id}`}
-                                label={t('name-field')}
-                                variant="standard"
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
-                                onKeyPress={handleKeypress}/>
+        <Card className="board-column">
+            <CardHeader
+                title={editionEnabled ?
+                    (
+                        <TextField id={`column-name-${props.column.id}`}
+                            label={t('name-field')}
+                            variant="standard"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            onKeyPress={handleKeypress}/>
 
-                        ) :
-                        (
-                            props.column.name
-                        )
-                    }
-                    action={editionEnabled ?
-                        (
-                            <React.Fragment>
-                                <IconButton color="primary"
-                                    onClick={() => updateColumn(props.column.id, name)}>
-                                    <SaveIcon />
-                                </IconButton>
-                            </React.Fragment>
-                        ):
-                        (
-                            <React.Fragment>
-                                <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
-                                    <EditIcon />
-                                </IconButton>
-                                <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </React.Fragment>
-                        )
-                    }
-                />
-                <CardContent className="board-column-content">
-                    {tasks.length !== 0 ?
-                        <Box mt={2}>
-                            <Grid container
-                                spacing={3}
-                                direction="column">
-                                {tasks.map((task) =>
-                                    <BoardTask key={task.id} task={task}></BoardTask>
-                                )}
-                            </Grid>
-                        </Box>
-                        :
-                        null
-                    }
-                </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={() => addTask(props.column.id)}>{
-                        t('add-task')}
-                    </Button>
-                </CardActions>
-            </Card>
-        </Grid>
+                    ) :
+                    (
+                        props.column.name
+                    )
+                }
+                action={editionEnabled ?
+                    (
+                        <React.Fragment>
+                            <IconButton color="primary"
+                                onClick={() => updateColumn(props.column.id, name)}>
+                                <SaveIcon />
+                            </IconButton>
+                        </React.Fragment>
+                    ):
+                    (
+                        <React.Fragment>
+                            <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
+                                <EditIcon />
+                            </IconButton>
+                            <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </React.Fragment>
+                    )
+                }
+            />
+            <CardContent className="board-column-content">
+                {tasks.length !== 0 ?
+                    <Box mt={2}>
+                        <Grid container
+                            spacing={3}
+                            direction="column">
+                            {tasks.map((task) =>
+                                <BoardTask key={task.id} task={task}></BoardTask>
+                            )}
+                        </Grid>
+                    </Box>
+                    :
+                    null
+                }
+            </CardContent>
+            <CardActions>
+                <Button size="small" onClick={() => addTask(props.column.id)}>{
+                    t('add-task')}
+                </Button>
+            </CardActions>
+        </Card>
     );
 }
 

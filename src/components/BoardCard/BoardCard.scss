@@ -2,6 +2,10 @@
 
 .board-card {
     min-height: 250px;
+
+    .MuiIconButton-root {
+        color:$darker-color !important;
+    }
 }
 .board-card-avatar {
     background-color: $lighter-color !important;
@@ -11,10 +15,10 @@
     margin: 0px 10px 20px 10px !important;
 }
 
-.board-card-content .MuiTextField-root {
-    display: flex;
-}
-
-.board-card-description {
+.board-card-content {
     cursor: pointer;
+
+    .MuiTextField-root {
+        display: flex;
+    }
 }
