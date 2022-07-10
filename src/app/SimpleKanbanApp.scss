@@ -1,7 +1,7 @@
-$darkest-color: #30011e;
-$darker-color: #770f0f;
-$main-color: #b68f40;
-$lighter-color: #8ec295;
+$darkest-color: #2b358d;
+$darker-color: #8ec295;
+$main-color: #2a61a8;
+$lighter-color: #98c1d9;
 $lightest-color: #dcf1e5;
 
 body {
@@ -21,11 +21,25 @@ body {
     background-color: $darkest-color !important;
 }
 
-.MuiButton-containedSecondary {
-    background-color: $lightest-color !important;
+.MuiButton-textPrimary{
+    color: $main-color !important;
+    font-weight: bold !important;
+}
+
+.MuiButton-containedSecondary{
+    background-color: $darker-color !important;
+}
+
+.MuiButton-textSecondary {
+    color: $darker-color !important;
+    font-weight: bold !important;
 }
 
 .action-buttons-container {
     text-align: end;
+}
+
+.MuiCardHeader-title {
+    font-size: 1rem !important;
 }
 

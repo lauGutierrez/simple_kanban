@@ -41,10 +41,10 @@ const BoardSelector = (props) => {
         }
     }
 
-    const addBoard = async () => {
+    const createBoard = async () => {
         let name = t('board-default-name');
         let description = t('board-default-description');
-        let id = await operations.boardOperations.addBoard(name, description);
+        let id = await operations.boardOperations.createBoard(name, description);
         await operations.boardOperations.getBoardById(id, (id, data) => {
             dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
         });
@@ -65,7 +65,7 @@ const BoardSelector = (props) => {
                                 variant="contained"
                                 size="large"
                                 endIcon={<AddIcon />}
-                                onClick={addBoard}>
+                                onClick={createBoard}>
                                 {t('new')}
                             </Button>
                         </Grid>

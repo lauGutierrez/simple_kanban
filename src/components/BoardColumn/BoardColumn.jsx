@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import './BoardColumn.scss';
@@ -30,6 +30,14 @@ const BoardColumn = (props) => {
     const [editionEnabled, setEditionEnabled] = useState(false);
     const [name, setName] = useState(props.column.name);
 
+    const board = useSelector(state => state.selectedBoard);
+
+    useEffect(() => {
+        if (board && board['columns']) {
+            operations.columnOperations.updateBoardColumns(board.id, board.columns);
+        }
+    }, [board]);
+
     const tasks = [
         {
             id: 1,
@@ -59,6 +67,7 @@ const BoardColumn = (props) => {
     const deleteColumn = (id) => {
         operations.columnOperations.deleteColumn(id);
         dispatch(actions.columnActions.deleteColumn(id));
+        dispatch(actions.selectedBoardActions.deleteColumnFromBoard(id));
     }
 
     const handleKeypress = (event) => {
@@ -69,71 +78,101 @@ const BoardColumn = (props) => {
 
     const addTask = async (columnId) => {
         let name = t('task-default-name');
-        // let id = await operations.columnOperations.addColumnToBoard(board.id, name);
-        // dispatch(
-        //     actions.columnActions.addColumn(id, name)
-        // );
+    }
+
+    const onDragStart = (event, columnId) => {
+        event.dataTransfer.setData("columnId", columnId);
+    }
+
+    const allowDrop = (event) => {
+        event.preventDefault();
+    }
+
+    const dropColumn = (event) => {
+        event.preventDefault();
+        let columnId = event.dataTransfer.getData("columnId");
+        let column = document.getElementById(columnId);
+        let betweenColumns = document.getElementById(`after-${columnId}`);
+        let afterColumnId = event.target.id.split('-')[1];
+
+        if (event.target.nextSibling) {
+            event.target.parentNode.insertBefore(betweenColumns, event.target.nextSibling);
+            event.target.parentNode.insertBefore(column, event.target.nextSibling);
+        } else {
+            event.target.parentNode.appendChild(column);
+            event.target.parentNode.appendChild(betweenColumns);
+        }
+        dispatch(actions.selectedBoardActions.reorderColumn(afterColumnId,columnId));
     }
 
     return (
-        <Card className="board-column">
-            <CardHeader
-                title={editionEnabled ?
-                    (
-                        <TextField id={`column-name-${props.column.id}`}
-                            label={t('name-field')}
-                            variant="standard"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                            onKeyPress={handleKeypress}/>
+        <React.Fragment>
+            <Card id={props.column.id}
+                className="board-column"
+                draggable={!editionEnabled}
+                onDragStart={(event) => onDragStart(event, props.column.id)}>
+                <CardHeader
+                    title={editionEnabled ?
+                        (
+                            <TextField id={`column-name-${props.column.id}`}
+                                label={t('name-field')}
+                                variant="standard"
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
+                                onKeyPress={handleKeypress} />
 
-                    ) :
-                    (
-                        props.column.name
-                    )
-                }
-                action={editionEnabled ?
-                    (
-                        <React.Fragment>
-                            <IconButton color="primary"
-                                onClick={() => updateColumn(props.column.id, name)}>
-                                <SaveIcon />
-                            </IconButton>
-                        </React.Fragment>
-                    ):
-                    (
-                        <React.Fragment>
-                            <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
-                                <EditIcon />
-                            </IconButton>
-                            <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </React.Fragment>
-                    )
-                }
-            />
-            <CardContent className="board-column-content">
-                {tasks.length !== 0 ?
-                    <Box mt={2}>
-                        <Grid container
-                            spacing={3}
-                            direction="column">
-                            {tasks.map((task) =>
-                                <BoardTask key={task.id} task={task}></BoardTask>
-                            )}
-                        </Grid>
-                    </Box>
-                    :
-                    null
-                }
-            </CardContent>
-            <CardActions>
-                <Button size="small" onClick={() => addTask(props.column.id)}>{
-                    t('add-task')}
-                </Button>
-            </CardActions>
-        </Card>
+                        ) :
+                        (
+                            props.column.name
+                        )
+                    }
+                    action={editionEnabled ?
+                        (
+                            <React.Fragment>
+                                <IconButton color="primary"
+                                    onClick={() => updateColumn(props.column.id, name)}>
+                                    <SaveIcon />
+                                </IconButton>
+                            </React.Fragment>
+                        ) :
+                        (
+                            <React.Fragment>
+                                <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                                <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </React.Fragment>
+                        )
+                    }
+                />
+                <CardContent className="board-column-content">
+                    {tasks.length !== 0 ?
+                        <Box mt={2}>
+                            <Grid container
+                                spacing={3}
+                                direction="column">
+                                {tasks.map((task) =>
+                                    <BoardTask key={task.id} task={task}></BoardTask>
+                                )}
+                            </Grid>
+                        </Box>
+                        :
+                        null
+                    }
+                </CardContent>
+                <CardActions>
+                    <Button size="small" onClick={() => addTask(props.column.id)}>{
+                        t('add-task')}
+                    </Button>
+                </CardActions>
+            </Card>
+            <div id={`after-${props.column.id}`} 
+                className="between-columns"
+                onDragOver={allowDrop}
+                onDrop={dropColumn}></div>
+        </React.Fragment>
     );
 }
 

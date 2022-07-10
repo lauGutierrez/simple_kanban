@@ -5,15 +5,6 @@ import collectionTags from './collectionTags';
 
 const database = firebase.firestore();
 
-const getAllColumnsInBoard = async (boardId, successCb) => {
-    const snapshot = await database.collection(collectionTags.COLUMN).where(
-        "board", "==", getBoardReference(boardId)
-    ).get();
-    snapshot.forEach((doc) => {
-        successCb(doc.id, doc.data());
-    });
-}
-
 const getColumnById = async (id, successCb) => {
     const snapshot = await database.collection(collectionTags.COLUMN).doc(id).get();
     if (snapshot.exists) {
@@ -21,36 +12,47 @@ const getColumnById = async (id, successCb) => {
     }
 }
 
-const addColumnToBoard = async (boardId, name) => {
+const getAllColumnsInBoard = async (columnRefs, successCb) => {
+    columnRefs.forEach((columnRef) => {
+        getColumnById(columnRef, successCb);
+    });
+}
+
+const updateBoardColumns = async (boardId, columnRefs) => {
+
+    await database.collection(collectionTags.BOARD).doc(boardId).update(
+        {
+            'columns': columnRefs
+        }
+    );
+}
+
+const createColumn = async (name) => {
     const doc = await database.collection(collectionTags.COLUMN).add(
         {
-            'name': name,
-            'board': getBoardReference(boardId)
+            'name': name
         }
     );
     return doc.id;
 }
 
-const updateColumn = async (id, name) => {
-    await database.collection(collectionTags.COLUMN).doc(id).update(
+const updateColumn = (id, name) => {
+    database.collection(collectionTags.COLUMN).doc(id).update(
         {
             'name': name
         }
     );
 }
 
-const deleteColumn = async (id) => {
-    await database.collection(collectionTags.COLUMN).doc(id).delete();
-}
-
-const getBoardReference = (boardId) => {
-    return `${collectionTags.BOARD}/${boardId}/`;
+const deleteColumn = (id) => {
+    database.collection(collectionTags.COLUMN).doc(id).delete();
 }
 
 export default {
     getAllColumnsInBoard,
+    updateBoardColumns,
     getColumnById,
-    addColumnToBoard,
+    createColumn,
     updateColumn,
     deleteColumn
 }

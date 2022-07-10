@@ -13,6 +13,8 @@ import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -100,7 +102,7 @@ const BoardCard = (props) => {
                         )
                     }
                 />
-                <CardContent className="board-card-content" onClick={() => { openBoard(props.board.id) }}>
+                <CardContent className="board-card-content">
                     {editionEnabled ?
                         (
                             <TextField id={`description-${props.board.id}`}
@@ -119,6 +121,11 @@ const BoardCard = (props) => {
                         )
                     }
                 </CardContent>
+                <CardActions>
+                    <Button size="small" onClick={() => openBoard(props.board.id)}>
+                        {t('open-board')}
+                    </Button>
+                </CardActions>
             </Card>
         </Grid>
     );

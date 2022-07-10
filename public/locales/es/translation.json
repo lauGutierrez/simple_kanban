@@ -20,5 +20,6 @@
     "column-default-name": "Nueva columna",
     "add-task": "Añadir tarea",
     "task-default-name": "Nueva tarea",
-    "task-name-field": "Descripción de la tarea"
+    "task-name-field": "Descripción de la tarea",
+    "open-board": "Abrir tablero"
 }

@@ -20,5 +20,6 @@
     "column-default-name": "New column",
     "add-task": "Add task",
     "task-default-name": "New task",
-    "task-name-field": "Task description"
+    "task-name-field": "Task description",
+    "open-board": "Open board"
 }

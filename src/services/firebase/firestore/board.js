@@ -7,7 +7,7 @@ import collectionTags from './collectionTags';
 const database = firebase.firestore();
 
 const getAllBoards = async (successCb) => {
-    const snapshot = await database.collection(collectionTags.BOARD).get();
+    const snapshot = await database.collection(collectionTags.BOARD).orderBy("created", "desc").get();
     snapshot.forEach((doc) => {
         successCb(doc.id, doc.data());
     });
@@ -20,12 +20,13 @@ const getBoardById = async (id, successCb) => {
     }
 }
 
-const addBoard = async (name, description) => {
+const createBoard = async (name, description) => {
     const doc = await database.collection(collectionTags.BOARD).add(
         {
             'name': name,
             'description': description,
-            'created': firebase.firestore.FieldValue.serverTimestamp()
+            'created': firebase.firestore.FieldValue.serverTimestamp(),
+            'columns': []
         }
     );
     return doc.id;
@@ -47,7 +48,7 @@ const deleteBoard = async (id) => {
 export default {
     getAllBoards,
     getBoardById,
-    addBoard,
+    createBoard,
     updateBoard,
     deleteBoard
 }
