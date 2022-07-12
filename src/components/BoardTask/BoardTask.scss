@@ -3,3 +3,19 @@
 .board-column-task {
     background-color: $lightest-color !important;
 }
+
+.board-column-task-header {
+
+    .MuiIconButton-root {
+        color: $main-color !important;
+        max-width: 20px;
+
+        .MuiSvgIcon-root {
+            max-width: 20px;
+        }
+    }
+}
+
+.between-tasks {
+    min-height: 20px;
+}

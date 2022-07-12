@@ -2,7 +2,7 @@
 import { firebase } from '../firebase';
 import 'firebase/compat/firestore';
 import collectionTags from './collectionTags';
-
+import columnOperations from './column';
 
 const database = firebase.firestore();
 
@@ -41,8 +41,12 @@ const updateBoard = async (id, name, description) => {
     );
 }
 
-const deleteBoard = async (id) => {
-    await database.collection(collectionTags.BOARD).doc(id).delete();
+const deleteBoard = (id) => {
+    getBoardById(id, async (boardId, data) => {
+        console.log(data.columns);
+        data.columns.forEach(columnId => columnOperations.deleteColumn(columnId));
+        await database.collection(collectionTags.BOARD).doc(boardId).delete();
+    });
 }
 
 export default {

@@ -38,26 +38,6 @@ const BoardColumn = (props) => {
         }
     }, [board]);
 
-    const tasks = [
-        {
-            id: 1,
-            name: 'Tarea 1'
-        },
-        {
-            id: 2,
-            name: 'Tarea 2'
-        },
-        {
-            id: 3,
-            name: 'Tarea 3'
-        },
-        {
-            id: 4,
-            name: 'Tarea 4'
-        }
-    ];
-
-
     const updateColumn = (id, name) => {
         operations.columnOperations.updateColumn(id, name);
         dispatch(actions.columnActions.updateColumn(id, name));
@@ -76,8 +56,11 @@ const BoardColumn = (props) => {
         }
     }
 
-    const addTask = async (columnId) => {
+    const createTask = async (columnId) => {
         let name = t('task-default-name');
+        let taskId = await operations.columnOperations.createTask(columnId, name);
+
+        dispatch(actions.columnActions.addTaskToColumn(columnId, taskId, name));
     }
 
     const onDragStart = (event, columnId) => {
@@ -112,6 +95,7 @@ const BoardColumn = (props) => {
                 draggable={!editionEnabled}
                 onDragStart={(event) => onDragStart(event, props.column.id)}>
                 <CardHeader
+                    className="board-column-header"
                     title={editionEnabled ?
                         (
                             <TextField id={`column-name-${props.column.id}`}
@@ -148,13 +132,15 @@ const BoardColumn = (props) => {
                     }
                 />
                 <CardContent className="board-column-content">
-                    {tasks.length !== 0 ?
-                        <Box mt={2}>
+                    {props.column.tasks.length !== 0 ?
+                        <Box mt={1}>
                             <Grid container
-                                spacing={3}
+                                spacing={0}
                                 direction="column">
-                                {tasks.map((task) =>
-                                    <BoardTask key={task.id} task={task}></BoardTask>
+                                {props.column.tasks.map((task) =>
+                                    <Grid item key={task.id}>
+                                        <BoardTask key={task.id} task={task} column={props.column}></BoardTask>
+                                    </Grid>
                                 )}
                             </Grid>
                         </Box>
@@ -163,7 +149,7 @@ const BoardColumn = (props) => {
                     }
                 </CardContent>
                 <CardActions>
-                    <Button size="small" onClick={() => addTask(props.column.id)}>{
+                    <Button size="small" onClick={() => createTask(props.column.id)}>{
                         t('add-task')}
                     </Button>
                 </CardActions>

@@ -10,12 +10,7 @@ import operations from '../../services/firebase/firestore/operations';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -30,14 +25,14 @@ const BoardTask = (props) => {
 
 
     const updateTask = (id, name) => {
-        // operations.columnOperations.updateColumn(id, name);
-        // dispatch(actions.columnActions.updateColumn(id, name));
-        // setEditionEnabled(false);
+        operations.columnOperations.updateTask(id, name);
+        dispatch(actions.columnActions.updateTask(id, name));
+        setEditionEnabled(false);
     }
 
     const deleteTask = (id) => {
-        // operations.columnOperations.deleteColumn(id);
-        // dispatch(actions.columnActions.deleteColumn(id));
+        operations.columnOperations.deleteTask(id);
+        dispatch(actions.columnActions.deleteTask(id));
     }
 
     const handleKeypress = (event) => {
@@ -46,11 +41,42 @@ const BoardTask = (props) => {
         }
     }
 
+    const onDragStart = (event, taskId) => {
+        event.dataTransfer.setData("taskId", taskId);
+    }
+
+    const allowDrop = (event) => {
+        event.preventDefault();
+    }
+
+    const dropColumn = (event) => {
+        event.preventDefault();
+        let taskId = event.dataTransfer.getData("taskId");
+        let task = document.getElementById(taskId);
+        let betweenTasks = document.getElementById(`after-${taskId}`);
+        let afterTaskId = event.target.id.split('-')[1];
+
+        if (event.target.nextSibling) {
+            event.target.parentNode.insertBefore(betweenTasks, event.target.nextSibling);
+            event.target.parentNode.insertBefore(task, event.target.nextSibling);
+        } else {
+            event.target.parentNode.appendChild(task);
+            event.target.parentNode.appendChild(betweenTasks);
+        }
+        dispatch(actions.columnActions.reorderTask(
+            taskId, props.column.id, afterTaskId
+        ));
+    }
+
     return (
-        <Grid item>
-            <Card className="board-column-task">
-                <CardContent>
-                    {editionEnabled ?
+        <React.Fragment>
+            <Card id={props.task.id}
+                className="board-column-task"
+                draggable={!editionEnabled}
+                onDragStart={(event) => onDragStart(event, props.task.id)}>
+                <CardHeader
+                    className="board-column-task-header"
+                    title={editionEnabled ?
                         (
                             <TextField id={`task-name-${props.task.id}`}
                                 label={t('task-name-field')}
@@ -64,9 +90,33 @@ const BoardTask = (props) => {
                             props.task.name
                         )
                     }
-                </CardContent>
+                    action={editionEnabled ?
+                        (
+                            <React.Fragment>
+                                <IconButton color="primary"
+                                    onClick={() => updateTask(props.task.id, name)}>
+                                    <SaveIcon />
+                                </IconButton>
+                            </React.Fragment>
+                        ) :
+                        (
+                            <React.Fragment>
+                                <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                                <IconButton color="secondary" onClick={() => deleteTask(props.task.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </React.Fragment>
+                        )
+                    }
+                />
             </Card>
-        </Grid>
+            <div id={`after-${props.task.id}`}
+                className="between-tasks"
+                onDragOver={allowDrop}
+                onDrop={dropColumn}></div>
+        </React.Fragment>
     );
 }
 

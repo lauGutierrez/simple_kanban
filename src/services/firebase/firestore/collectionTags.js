@@ -1,6 +1,7 @@
 const collectionTags = {
     BOARD: 'boards',
-    COLUMN: 'columns'
+    COLUMN: 'columns',
+    TASK: 'tasks'
 };
 
 export default collectionTags;

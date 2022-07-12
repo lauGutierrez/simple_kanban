@@ -53,23 +53,34 @@ const BoardEditor = (props) => {
         if (Object.keys(board).length === 0) {
             operations.boardOperations.getBoardById(
                 params.boardId,
-                (id, data) => {
+                (boardId, boardData) => {
                     dispatch(
                         actions.selectedBoardActions.setSelectedBoard(
-                            id,
-                            data.name,
-                            data.description,
-                            data.created,
-                            data.columns
+                            boardId,
+                            boardData.name,
+                            boardData.description,
+                            boardData.created,
+                            boardData.columns
                         )
                     );
                     operations.columnOperations.getAllColumnsInBoard(
-                        data.columns,
-                        (id, data) => {
+                        boardData.columns,
+                        (columnId, columnData) => {
                             dispatch(
                                 actions.columnActions.addColumn(
-                                    id, data.name
+                                    columnId, columnData.name, []
                                 )
+                            );
+                            operations.columnOperations.getAllTasksInColumn(
+                                columnData.tasks,
+                                (taskId, taskData) => {
+                                    console.log(taskId, taskData);
+                                    dispatch(
+                                        actions.columnActions.addTaskToColumn(
+                                            columnId, taskData
+                                        )
+                                    );
+                                }
                             );
                         }
                     );
@@ -82,7 +93,7 @@ const BoardEditor = (props) => {
         let name = t('column-default-name');
         let id = await operations.columnOperations.createColumn(name);
         
-        dispatch(actions.columnActions.addColumn(id, name));
+        dispatch(actions.columnActions.addColumn(id, name, []));
         dispatch(actions.selectedBoardActions.addColumnToBoard(id));
     }
 

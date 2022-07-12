@@ -10,8 +10,8 @@
 }
 
 .board-columns-container {
-    display: flex !important;
-    align-items: start !important;
+    display: flex;
+    align-items: flex-start !important;
     overflow-x: scroll !important;
     width: 100% !important;
     height: 90%;

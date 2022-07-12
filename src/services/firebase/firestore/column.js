@@ -12,9 +12,22 @@ const getColumnById = async (id, successCb) => {
     }
 }
 
+const getTaskById = async (id, successCb) => {
+    const snapshot = await database.collection(collectionTags.TASK).doc(id).get();
+    if (snapshot.exists) {
+        successCb(snapshot.id, snapshot.data());
+    }
+}
+
 const getAllColumnsInBoard = async (columnRefs, successCb) => {
     columnRefs.forEach((columnRef) => {
         getColumnById(columnRef, successCb);
+    });
+}
+
+const getAllTasksInColumn = async (taskRefs, successCb) => {
+    taskRefs.forEach((taskRef) => {
+        getTaskById(taskRef, successCb);
     });
 }
 
@@ -27,13 +40,40 @@ const updateBoardColumns = async (boardId, columnRefs) => {
     );
 }
 
+const updateColumnTasks = async (columnId, taskRefs) => {
+
+    await database.collection(collectionTags.COLUMN).doc(columnId).update(
+        {
+            'tasks': taskRefs
+        }
+    );
+}
+
 const createColumn = async (name) => {
     const doc = await database.collection(collectionTags.COLUMN).add(
+        {
+            'name': name,
+            'tasks': []
+        }
+    );
+    return doc.id;
+}
+
+const createTask = async (columnId, name) => {
+    const taskDoc = await database.collection(collectionTags.TASK).add(
         {
             'name': name
         }
     );
-    return doc.id;
+    getColumnById(columnId, (id, data) => {
+        let tasks = [
+            ...data.tasks,
+            taskDoc.id
+        ];
+        updateColumnTasks(columnId, tasks);
+
+    });
+    return taskDoc.id;
 }
 
 const updateColumn = (id, name) => {
@@ -50,9 +90,11 @@ const deleteColumn = (id) => {
 
 export default {
     getAllColumnsInBoard,
+    getAllTasksInColumn,
     updateBoardColumns,
     getColumnById,
     createColumn,
+    createTask,
     updateColumn,
     deleteColumn
 }

@@ -1,12 +1,13 @@
 import actionTags from './actionsTags';
 
-const addColumn = (id, name) => {
+const addColumn = (id, name, tasks) => {
     return {
         type: actionTags.ADD_COLUMN,
         payload: {
             column: {
                 id: id,
-                name: name
+                name: name,
+                tasks: tasks
             }
         }
     }
@@ -42,9 +43,71 @@ const resetColumns = () => {
     }
 }
 
+const addTaskToColumn = (columnId, task) => {
+    return {
+        type: actionTags.ADD_TASK_TO_COLUMN,
+        payload: {
+            column: {
+                id: columnId
+            },
+            task: task
+        }
+    }
+}
+
+const updateTask = (columnId, taskId, name) => {
+    return {
+        type: actionTags.UPDATE_TASK,
+        payload: {
+            column: {
+                id: columnId
+            },
+            task: {
+                id: taskId,
+                name: name
+            }
+        }
+    }
+}
+
+const deleteTask = (columnId, taskId) => {
+    return {
+        type: actionTags.DELETE_TASK,
+        payload: {
+            column: {
+                id: columnId
+            },
+            task: {
+                id: taskId
+            }
+        }
+    }
+}
+
+const reorderTask = (columnId, taskId, afterId) => {
+    return {
+        type: actionTags.REORDER_TASK,
+        payload: {
+            column: {
+                id: columnId
+            },
+            task: {
+                id: taskId
+            },
+            order: {
+                after: afterId,
+            }
+        }
+    }
+}
+
 export default {
     addColumn,
     updateColumn,
     deleteColumn,
-    resetColumns
+    resetColumns,
+    addTaskToColumn,
+    updateTask,
+    deleteTask,
+    reorderTask
 }
