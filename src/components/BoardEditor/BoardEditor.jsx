@@ -32,13 +32,6 @@ const BoardEditor = (props) => {
     }, []);
 
     useEffect(() => {
-        if (board && board['columns']) {
-            operations.columnOperations.updateBoardColumns(board.id, board.columns);
-        }
-        
-    }, [board]);
-
-    useEffect(() => {
         return () => {
             dispatch(
                 actions.selectedBoardActions.resetSelectedBoard()

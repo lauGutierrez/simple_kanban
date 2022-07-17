@@ -91,7 +91,8 @@ const BoardColumn = (props) => {
             event.target.parentNode.appendChild(column);
             event.target.parentNode.appendChild(betweenColumns);
         }
-        dispatch(actions.selectedBoardActions.reorderColumn(afterColumnId,columnId));
+        operations.boardOperations.reorderColumn(afterColumnId, columnId);
+        dispatch(actions.selectedBoardActions.reorderColumn(board.id, afterColumnId, columnId));
     }
 
     const enableEdition = () => {

@@ -65,21 +65,12 @@ const BoardTask = (props) => {
 
         let taskId = event.dataTransfer.getData("taskId");
         let task = document.getElementById(taskId);
-        let betweenTasks = document.getElementById(`after-${taskId}`);
         let dragColumnId = task.closest('.board-column').id;
 
         let afterTaskId = event.target.id.split('-')[1];
         let dropColumnId = event.target.closest('.board-column').id;
 
         event.target.classList.remove("dragover");
-
-        if (event.target.nextSibling) {
-            event.target.parentNode.insertBefore(betweenTasks, event.target.nextSibling);
-            event.target.parentNode.insertBefore(task, event.target.nextSibling);
-        } else {
-            event.target.parentNode.appendChild(task);
-            event.target.parentNode.appendChild(betweenTasks);
-        }
 
         operations.columnOperations.deleteTaskFromColumn(dragColumnId, taskId);
         operations.columnOperations.addTaskToColumn(dropColumnId, taskId, afterTaskId);

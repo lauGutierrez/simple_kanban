@@ -48,10 +48,25 @@ const deleteBoard = (id) => {
     });
 }
 
+const reorderColumn = (boardId, afterColumnId, columnId) => {
+    getBoardById(boardId, async (boardId, data) => {
+        let columns = data.columns.filter(
+            (columnId) => columnId !== columnId
+        );
+        columns.splice(
+            columns.indexOf(afterColumnId) + 1,
+            0,
+            columnId
+        );
+        columnOperations.updateBoardColumns(boardId, columns);
+    });
+}
+
 export default {
     getAllBoards,
     getBoardById,
     createBoard,
     updateBoard,
-    deleteBoard
+    deleteBoard,
+    reorderColumn
 }
