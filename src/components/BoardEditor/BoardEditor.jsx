@@ -122,7 +122,7 @@ const BoardEditor = (props) => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    {columns.length !== 0 ?
+                    {columns && columns.length !== 0 ?
                         <div className="board-columns-container">
                             {columns.map((column) =>
                                 <BoardColumn key={column.id} column={column}></BoardColumn>

@@ -93,24 +93,49 @@ const updateTask = (id, name) => {
     );
 }
 
-const deleteColumn = (boardId, columnId) => {
-    database.collection(collectionTags.COLUMN).doc(columnId).delete();
+const deleteColumn = (columnId) => {
+    getColumnById(columnId, async (columnId, data) => {
+        data.tasks.forEach(taskId => deleteTask(taskId));
+        await database.collection(collectionTags.COLUMN).doc(columnId).delete();
+    });
+}
+
+const deleteColumnFromBoard = (boardId, columnId) => {
     boardOperations.getBoardById(boardId, (id, data) => {
         updateBoardColumns(
             boardId,
             data.columns.filter((column) => column.id !== columnId)
         );
     });
-    
 }
 
-const deleteTask = (columnId, taskId) => {
+const deleteTask = (taskId) => {
     database.collection(collectionTags.TASK).doc(taskId).delete();
+}
+
+const deleteTaskFromColumn = (columnId, taskId) => {
     getColumnById(columnId, (id, data) => {
-        updateColumnTasks(
-            columnId,
-            data.tasks.filter((task) => task.id !== taskId)
-        );
+        let taskIds = data.tasks.filter((taskRef) => taskRef !== taskId);
+        updateColumnTasks(columnId, taskIds);
+    });
+}
+
+const addTaskToColumn = (columnId, taskId, afterTaskId) => {
+    getColumnById(columnId, (id, data) => {
+        let taskIds = [...data.tasks];
+        if (afterTaskId) {
+            taskIds.splice(
+                taskIds.findIndex(task => task.id === afterTaskId) + 1,
+                0,
+                taskId
+            );
+        } else {
+            taskIds = [
+                ...taskIds,
+                taskId
+            ];
+        }
+        updateColumnTasks(columnId, taskIds);
     });
 }
 
@@ -124,5 +149,8 @@ export default {
     updateColumn,
     updateTask,
     deleteColumn,
-    deleteTask
+    deleteColumnFromBoard,
+    deleteTask,
+    deleteTaskFromColumn,
+    addTaskToColumn
 }

@@ -31,23 +31,19 @@ const BoardColumn = (props) => {
     const [name, setName] = useState(props.column.name);
 
     const board = useSelector(state => state.selectedBoard);
-
-    useEffect(() => {
-        if (board && board['columns']) {
-            operations.columnOperations.updateBoardColumns(board.id, board.columns);
-        }
-    }, [board]);
+    const draggable = useSelector(state => state.draggable);
 
     const updateColumn = async (id, name) => {
         await operations.columnOperations.updateColumn(id, name);
         dispatch(actions.columnActions.updateColumn(id, name));
-        setEditionEnabled(false);
+        disableEdition();
     }
 
-    const deleteColumn = async (id) => {
-        await operations.columnOperations.deleteColumn(id);
-        dispatch(actions.columnActions.deleteColumn(id));
-        dispatch(actions.selectedBoardActions.deleteColumnFromBoard(id));
+    const deleteColumn = async (columnId) => {
+        operations.columnOperations.deleteColumnFromBoard(board.id, columnId);
+        operations.columnOperations.deleteColumn(columnId);
+        dispatch(actions.columnActions.deleteColumn(columnId));
+        dispatch(actions.selectedBoardActions.deleteColumnFromBoard(columnId));
     }
 
     const handleKeypress = (event) => {
@@ -68,7 +64,15 @@ const BoardColumn = (props) => {
     }
 
     const allowDrop = (event) => {
-        event.preventDefault();
+        let taskId = event.dataTransfer.getData("taskId");
+        if (!taskId) {
+            event.preventDefault();
+            event.target.classList.add("dragover");
+        }
+    }
+
+    const resetDrop = (event) => {
+        event.target.classList.remove("dragover");
     }
 
     const dropColumn = (event) => {
@@ -77,6 +81,8 @@ const BoardColumn = (props) => {
         let column = document.getElementById(columnId);
         let betweenColumns = document.getElementById(`after-${columnId}`);
         let afterColumnId = event.target.id.split('-')[1];
+
+        event.target.classList.remove("dragover");
 
         if (event.target.nextSibling) {
             event.target.parentNode.insertBefore(betweenColumns, event.target.nextSibling);
@@ -88,11 +94,21 @@ const BoardColumn = (props) => {
         dispatch(actions.selectedBoardActions.reorderColumn(afterColumnId,columnId));
     }
 
+    const enableEdition = () => {
+        setEditionEnabled(true);
+        dispatch(actions.dragDropActions.disableDragDrop());
+    }
+
+    const disableEdition = () => {
+        setEditionEnabled(false);
+        dispatch(actions.dragDropActions.enableDragDrop());
+    }
+
     return (
         <React.Fragment>
             <Card id={props.column.id}
                 className="board-column"
-                draggable={!editionEnabled}
+                draggable={draggable}
                 onDragStart={(event) => onDragStart(event, props.column.id)}>
                 <CardHeader
                     className="board-column-header"
@@ -121,7 +137,7 @@ const BoardColumn = (props) => {
                         ) :
                         (
                             <React.Fragment>
-                                <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
+                                <IconButton color="primary" onClick={enableEdition}>
                                     <EditIcon />
                                 </IconButton>
                                 <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
@@ -132,21 +148,24 @@ const BoardColumn = (props) => {
                     }
                 />
                 <CardContent className="board-column-content">
-                    {props.column.tasks.length !== 0 ?
-                        <Box mt={1}>
-                            <Grid container
-                                spacing={0}
-                                direction="column">
-                                {props.column.tasks.map((task) =>
-                                    <Grid key={task.id} item>
-                                        <BoardTask task={task} column={props.column}></BoardTask>
-                                    </Grid>
-                                )}
+                    <Grid container
+                        spacing={0}
+                        direction="column">
+                            <Grid item>
+                                <BoardTask task={null} column={props.column}></BoardTask>
                             </Grid>
-                        </Box>
-                        :
-                        null
-                    }
+                            {props.column.tasks && props.column.tasks.length !== 0 ?
+                                <React.Fragment>
+                                    {props.column.tasks.map((task) =>
+                                        <Grid key={task.id} item>
+                                            <BoardTask task={task} column={props.column}></BoardTask>
+                                        </Grid>
+                                    )}
+                                </React.Fragment>
+                            :
+                                null
+                            }
+                    </Grid>
                 </CardContent>
                 <CardActions>
                     <Button size="small" onClick={() => createTask(props.column.id)}>{
@@ -157,6 +176,7 @@ const BoardColumn = (props) => {
             <div id={`after-${props.column.id}`} 
                 className="between-columns"
                 onDragOver={allowDrop}
+                onDragLeave={resetDrop}
                 onDrop={dropColumn}></div>
         </React.Fragment>
     );

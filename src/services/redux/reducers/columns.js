@@ -14,7 +14,8 @@ const columns = (state = [], action) => {
                 (column) => {
                     return {
                         id: column.id,
-                        name: action.payload.column.name
+                        name: action.payload.column.name,
+                        tasks: column.tasks
                     };
                 }
             );
@@ -25,61 +26,41 @@ const columns = (state = [], action) => {
         case actionTags.RESET_COLUMNS:
             return [];
         case actionTags.ADD_TASK_TO_COLUMN:
-            return getUpdatedList(
+            return addTaskToColumn(
                 state,
                 action.payload.column.id,
-                (column) => {
-                    return {
-                        id: column.id,
-                        name: column.name,
-                        tasks: [
-                            ...column.tasks,
-                            action.payload.task
-                        ]
-                    };
-                }
+                action.payload.task
             );
         case actionTags.UPDATE_TASK:
-            return getUpdatedList(
+            return updateTask(
                 state,
                 action.payload.column.id,
-                (column) => {
-                    let tasks = getUpdatedList(
-                        column.tasks,
-                        action.payload.task.id,
-                        (task) => {
-                            return {
-                                id: task.id,
-                                name: action.payload.task.name
-                            };
-                        }
-                    );
-                    return {
-                        id: column.id,
-                        name: column.name,
-                        tasks: tasks
-                    };
-                }
+                action.payload.task
             );
         case actionTags.DELETE_TASK:
-            return getUpdatedList(
+            return deleteTask(
                 state,
                 action.payload.column.id,
-                (column) => {
-                    let tasks = getUpdatedList(
-                        column.tasks,
-                        action.payload.task.id,
-                        (task) => { return null }
-                    );
-                    return {
-                        id: column.id,
-                        name: column.name,
-                        tasks: tasks
-                    };
-                }
+                action.payload.task.id
             );
         case actionTags.REORDER_TASK:
-            return [];
+            let task = getTaskById(
+                state,
+                action.payload.column.from,
+                action.payload.task.id
+            );
+            let columns = deleteTask(
+                state,
+                action.payload.column.from,
+                action.payload.task.id
+            );
+            columns = addTaskToColumn(
+                columns,
+                action.payload.column.to,
+                task,
+                action.payload.order.after
+            );
+            return columns;
         default:
             return state;
     }
@@ -99,6 +80,81 @@ const getUpdatedList = (state, id, getUpdatedCb) => {
     });
 
     return newState;
+}
+
+const getTaskById = (columns, columnId, taskId) => {
+    let column = columns.filter((column) => column.id === columnId)[0];
+    let task = column.tasks.filter((task) => task.id === taskId)[0];
+
+    return task;
+}
+
+const addTaskToColumn = (columns, columnId, newTask, afterTaskId) => {
+    return getUpdatedList(
+        columns,
+        columnId,
+        (column) => {
+            let tasks = [...column.tasks];
+            if (afterTaskId) {
+                tasks.splice(
+                    column.tasks.findIndex(task => task.id === afterTaskId) + 1,
+                    0,
+                    newTask
+                );
+            } else {
+                tasks.push(newTask);
+            }
+
+            return {
+                id: column.id,
+                name: column.name,
+                tasks: tasks
+            };
+        }
+    );
+}
+
+const updateTask = (columns, columnId, updatedTask) => {
+    return getUpdatedList(
+        columns,
+        columnId,
+        (column) => {
+            let tasks = getUpdatedList(
+                column.tasks,
+                updatedTask.id,
+                (task) => {
+                    return {
+                        id: task.id,
+                        name: updatedTask.name
+                    };
+                }
+            );
+            return {
+                id: column.id,
+                name: column.name,
+                tasks: tasks
+            };
+        }
+    );
+}
+
+const deleteTask = (columns, columnId, taskId) => {
+    return getUpdatedList(
+        columns,
+        columnId,
+        (column) => {
+            let tasks = getUpdatedList(
+                column.tasks,
+                taskId,
+                (task) => { return null }
+            );
+            return {
+                id: column.id,
+                name: column.name,
+                tasks: tasks
+            };
+        }
+    );
 }
 
 export default columns;   

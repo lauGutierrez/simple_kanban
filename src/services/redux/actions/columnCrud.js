@@ -87,18 +87,19 @@ const deleteTask = (columnId, taskId) => {
     }
 }
 
-const reorderTask = (columnId, taskId, afterId) => {
+const reorderTask = (fromColumnId, toColumnId, taskId, afterTaskId) => {
     return {
         type: actionTags.REORDER_TASK,
         payload: {
             column: {
-                id: columnId
+                from: fromColumnId,
+                to: toColumnId
             },
             task: {
                 id: taskId
             },
             order: {
-                after: afterId,
+                after: afterTaskId
             }
         }
     }
