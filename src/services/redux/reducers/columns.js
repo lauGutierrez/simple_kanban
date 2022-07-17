@@ -45,7 +45,7 @@ const columns = (state = [], action) => {
                 action.payload.column.id,
                 (column) => {
                     let tasks = getUpdatedList(
-                        column,
+                        column.tasks,
                         action.payload.task.id,
                         (task) => {
                             return {
@@ -67,7 +67,7 @@ const columns = (state = [], action) => {
                 action.payload.column.id,
                 (column) => {
                     let tasks = getUpdatedList(
-                        column,
+                        column.tasks,
                         action.payload.task.id,
                         (task) => { return null }
                     );

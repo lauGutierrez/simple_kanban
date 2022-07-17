@@ -43,7 +43,6 @@ const updateBoard = async (id, name, description) => {
 
 const deleteBoard = (id) => {
     getBoardById(id, async (boardId, data) => {
-        console.log(data.columns);
         data.columns.forEach(columnId => columnOperations.deleteColumn(columnId));
         await database.collection(collectionTags.BOARD).doc(boardId).delete();
     });

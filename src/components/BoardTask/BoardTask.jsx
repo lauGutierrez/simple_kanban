@@ -24,15 +24,15 @@ const BoardTask = (props) => {
     const [name, setName] = useState(props.task.name);
 
 
-    const updateTask = (id, name) => {
-        operations.columnOperations.updateTask(id, name);
-        dispatch(actions.columnActions.updateTask(id, name));
+    const updateTask = async (taskId, name) => {
+        await operations.columnOperations.updateTask(taskId, name);
+        dispatch(actions.columnActions.updateTask(props.column.id, taskId, name));
         setEditionEnabled(false);
     }
 
-    const deleteTask = (id) => {
-        operations.columnOperations.deleteTask(id);
-        dispatch(actions.columnActions.deleteTask(id));
+    const deleteTask = async (taskId) => {
+        await operations.columnOperations.deleteTask(props.column.id, taskId);
+        dispatch(actions.columnActions.deleteTask(props.column.id, taskId));
     }
 
     const handleKeypress = (event) => {

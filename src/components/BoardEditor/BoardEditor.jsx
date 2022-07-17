@@ -74,10 +74,9 @@ const BoardEditor = (props) => {
                             operations.columnOperations.getAllTasksInColumn(
                                 columnData.tasks,
                                 (taskId, taskData) => {
-                                    console.log(taskId, taskData);
                                     dispatch(
                                         actions.columnActions.addTaskToColumn(
-                                            columnId, taskData
+                                            columnId, taskId, taskData.name
                                         )
                                     );
                                 }

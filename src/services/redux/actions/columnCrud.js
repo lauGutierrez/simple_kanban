@@ -43,14 +43,17 @@ const resetColumns = () => {
     }
 }
 
-const addTaskToColumn = (columnId, task) => {
+const addTaskToColumn = (columnId, taskId, taskName) => {
     return {
         type: actionTags.ADD_TASK_TO_COLUMN,
         payload: {
             column: {
                 id: columnId
             },
-            task: task
+            task: {
+                id: taskId,
+                name: taskName
+            }
         }
     }
 }

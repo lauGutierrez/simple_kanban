@@ -38,14 +38,14 @@ const BoardColumn = (props) => {
         }
     }, [board]);
 
-    const updateColumn = (id, name) => {
-        operations.columnOperations.updateColumn(id, name);
+    const updateColumn = async (id, name) => {
+        await operations.columnOperations.updateColumn(id, name);
         dispatch(actions.columnActions.updateColumn(id, name));
         setEditionEnabled(false);
     }
 
-    const deleteColumn = (id) => {
-        operations.columnOperations.deleteColumn(id);
+    const deleteColumn = async (id) => {
+        await operations.columnOperations.deleteColumn(id);
         dispatch(actions.columnActions.deleteColumn(id));
         dispatch(actions.selectedBoardActions.deleteColumnFromBoard(id));
     }
@@ -138,8 +138,8 @@ const BoardColumn = (props) => {
                                 spacing={0}
                                 direction="column">
                                 {props.column.tasks.map((task) =>
-                                    <Grid item key={task.id}>
-                                        <BoardTask key={task.id} task={task} column={props.column}></BoardTask>
+                                    <Grid key={task.id} item>
+                                        <BoardTask task={task} column={props.column}></BoardTask>
                                     </Grid>
                                 )}
                             </Grid>

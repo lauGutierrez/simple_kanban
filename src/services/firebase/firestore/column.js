@@ -2,6 +2,7 @@
 import { firebase } from '../firebase';
 import 'firebase/compat/firestore';
 import collectionTags from './collectionTags';
+import boardOperations from './board';
 
 const database = firebase.firestore();
 
@@ -84,8 +85,33 @@ const updateColumn = (id, name) => {
     );
 }
 
-const deleteColumn = (id) => {
-    database.collection(collectionTags.COLUMN).doc(id).delete();
+const updateTask = (id, name) => {
+    database.collection(collectionTags.TASK).doc(id).update(
+        {
+            'name': name
+        }
+    );
+}
+
+const deleteColumn = (boardId, columnId) => {
+    database.collection(collectionTags.COLUMN).doc(columnId).delete();
+    boardOperations.getBoardById(boardId, (id, data) => {
+        updateBoardColumns(
+            boardId,
+            data.columns.filter((column) => column.id !== columnId)
+        );
+    });
+    
+}
+
+const deleteTask = (columnId, taskId) => {
+    database.collection(collectionTags.TASK).doc(taskId).delete();
+    getColumnById(columnId, (id, data) => {
+        updateColumnTasks(
+            columnId,
+            data.tasks.filter((task) => task.id !== taskId)
+        );
+    });
 }
 
 export default {
@@ -96,5 +122,7 @@ export default {
     createColumn,
     createTask,
     updateColumn,
-    deleteColumn
+    updateTask,
+    deleteColumn,
+    deleteTask
 }
