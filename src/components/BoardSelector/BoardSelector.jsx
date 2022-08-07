@@ -20,6 +20,7 @@ const BoardSelector = (props) => {
     const dispatch = useDispatch();
 
     const boards = useSelector(state => state.boards);
+    const user = useSelector(state => state.user);
 
     useEffect(() => {
         showAllBoards();
@@ -35,16 +36,19 @@ const BoardSelector = (props) => {
 
     const showAllBoards = () => {
         if (!boards.length) {
-            operations.boardOperations.getAllBoards((id, data) => {
-                dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
-            });
+            operations.boardOperations.getAllBoards(
+                user.id,
+                (id, data) => {
+                    dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
+                }
+            );
         }
     }
 
     const createBoard = async () => {
         let name = t('board-default-name');
         let description = t('board-default-description');
-        let id = await operations.boardOperations.createBoard(name, description);
+        let id = await operations.boardOperations.createBoard(user.id, name, description);
         await operations.boardOperations.getBoardById(id, (id, data) => {
             dispatch(actions.boardActions.addBoard(id, data.name, data.description, data.created));
         });

@@ -45,7 +45,7 @@ const Header = (props) => {
                             <Grid item>
                                 <Tooltip title={ user.email }>
                                     <IconButton >
-                                        <Avatar />
+                                        <Avatar className="header-avatar">{user.name.charAt(0)}</Avatar>
                                     </IconButton>
                                 </Tooltip>
                             </Grid>

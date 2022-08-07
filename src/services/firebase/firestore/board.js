@@ -6,8 +6,12 @@ import columnOperations from './column';
 
 const database = firebase.firestore();
 
-const getAllBoards = async (successCb) => {
-    const snapshot = await database.collection(collectionTags.BOARD).orderBy("created", "desc").get();
+const getAllBoards = async (userId, successCb) => {
+    const snapshot = await database.collection(
+        collectionTags.BOARD
+    ).where(
+        'user', '==', userId
+    ).orderBy("created", "desc").get();
     snapshot.forEach((doc) => {
         successCb(doc.id, doc.data());
     });
@@ -20,9 +24,10 @@ const getBoardById = async (id, successCb) => {
     }
 }
 
-const createBoard = async (name, description) => {
+const createBoard = async (userId, name, description) => {
     const doc = await database.collection(collectionTags.BOARD).add(
         {
+            'user': userId,
             'name': name,
             'description': description,
             'created': firebase.firestore.FieldValue.serverTimestamp(),

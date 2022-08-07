@@ -4,8 +4,9 @@ const signIn = (user) => {
     return {
         type: actionTags.SIGN_IN,
         payload: {
-            uid: user.uid,
-            email: user.email
+            id: user.id,
+            email: user.email,
+            name: user.name
         }
     }
 }

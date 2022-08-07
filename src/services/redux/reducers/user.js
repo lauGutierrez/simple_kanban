@@ -4,8 +4,9 @@ const user = (state = {}, action) => {
     switch (action.type) {
         case actionTags.SIGN_IN:
             return {
-                uid: action.payload.uid,
+                id: action.payload.id,
                 email: action.payload.email,
+                name: action.payload.name,
             };
         case actionTags.SIGN_OUT:
             return {};

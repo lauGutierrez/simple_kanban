@@ -7,8 +7,9 @@ import './SignIn.scss';
 import { useTranslation } from 'react-i18next';
 import { firebase } from '../../services/firebase/firebase';
 import 'firebase/compat/auth';
-
+import operations from '../../services/firebase/firestore/operations';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Grid';
 
@@ -22,10 +23,16 @@ const SignIn = (props) => {
     const uiConfig = {
         signInFlow: 'popup',
         callbacks: {
-            signInSuccessWithAuthResult: (data) => {
+            signInSuccessWithAuthResult: async (data) => {
+                await operations.userOperations.createUserIfNoExists(
+                    data.user.multiFactor.user.uid,
+                    data.user.multiFactor.user.email,
+                    data.user.multiFactor.user.displayName
+                );
                 setCurrentUser(
                     data.user.multiFactor.user.uid,
-                    data.user.multiFactor.user.email
+                    data.user.multiFactor.user.email,
+                    data.user.multiFactor.user.displayName
                 );
             }
         },
@@ -41,21 +48,23 @@ const SignIn = (props) => {
             if (user) {
                 setCurrentUser(
                     user.multiFactor.user.uid,
-                    user.multiFactor.user.email
+                    user.multiFactor.user.email,
+                    user.multiFactor.user.displayName
                 );
             }
         });
     }, []);
 
-    const setCurrentUser = (uid, email) => {
+    const setCurrentUser = (id, email, name) => {
         dispatch(actions.userActions.signIn({
-            uid: uid,
-            email: email
+            id: id,
+            email: email,
+            name: name
         }));
         navigate(props.redirectTo);
     }
-
-    if (currentUser) {
+    
+    if (Object.keys(currentUser).length !== 0) {
         return null;
     } else {
         return (
