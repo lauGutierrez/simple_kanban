@@ -2,12 +2,18 @@
 
 .board-column-task {
     background-color: $lightest-color !important;
+    width: 300px;
 }
 
 .board-column-task-header {
 
+    .MuiCardHeader-content {
+        overflow: auto !important;
+    }
+
     .MuiIconButton-root {
         max-width: 20px;
+        margin-left: 10px;
 
         .MuiSvgIcon-root {
             max-width: 20px;
