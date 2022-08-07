@@ -1,12 +1,19 @@
-.sign-in {
+.sign-in-container {
+    display: grid ;
     height: 100%;
+    align-items: center;
     background-image: url('../../../public/images/sign-in-background.png');
 
     .app-name {
         color: white;
     }
+
+    .MuiGrid-root {
+        margin-top: -3rem;
+    }
 }
 
-#firebaseui_container{
-    margin-top: 6rem;
+#firebaseui_container {
+    width: 100% !important;
+    height: 80% !important;
 }

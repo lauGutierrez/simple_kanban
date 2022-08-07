@@ -17,9 +17,8 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 
@@ -32,6 +31,13 @@ const BoardColumn = (props) => {
 
     const board = useSelector(state => state.selectedBoard);
     const draggable = useSelector(state => state.draggable);
+
+    useEffect(() => {
+        if (editionEnabled) {
+            document.getElementById(`column-name-${props.column.id}`).focus();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editionEnabled]);
 
     const updateColumn = async (id, name) => {
         await operations.columnOperations.updateColumn(id, name);
@@ -124,7 +130,9 @@ const BoardColumn = (props) => {
 
                         ) :
                         (
-                            props.column.name
+                            <Typography onClick={enableEdition}>
+                                {props.column.name}
+                            </Typography>
                         )
                     }
                     action={editionEnabled ?
@@ -138,9 +146,6 @@ const BoardColumn = (props) => {
                         ) :
                         (
                             <React.Fragment>
-                                <IconButton color="primary" onClick={enableEdition}>
-                                    <EditIcon />
-                                </IconButton>
                                 <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
                                     <DeleteIcon />
                                 </IconButton>

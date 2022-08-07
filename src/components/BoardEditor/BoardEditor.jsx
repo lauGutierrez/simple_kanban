@@ -29,6 +29,7 @@ const BoardEditor = (props) => {
 
     useEffect(() => {
         showBoard();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -40,6 +41,7 @@ const BoardEditor = (props) => {
                 actions.columnActions.resetColumns()
             );
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const showBoard = () => {
@@ -83,7 +85,7 @@ const BoardEditor = (props) => {
 
     const createColumn = async () => {
         let name = t('column-default-name');
-        let id = await operations.columnOperations.createColumn(name);
+        let id = await operations.columnOperations.createColumn(board.id, name);
         
         dispatch(actions.columnActions.addColumn(id, name, []));
         dispatch(actions.selectedBoardActions.addColumnToBoard(id));

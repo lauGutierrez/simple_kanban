@@ -11,8 +11,8 @@ import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 
@@ -24,6 +24,13 @@ const BoardTask = (props) => {
     const [name, setName] = useState(props.task ? props.task.name : '');
 
     const draggable = useSelector(state => state.draggable);
+
+    useEffect(() => {
+        if (editionEnabled) {
+            document.getElementById(`task-name-${props.task.id}`).focus();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editionEnabled]);
 
     const updateTask = async (taskId, name) => {
         await operations.columnOperations.updateTask(taskId, name);
@@ -115,7 +122,9 @@ const BoardTask = (props) => {
 
                             ) :
                             (
-                                props.task.name
+                                <Typography onClick={enableEdition}>
+                                    {props.task.name}
+                                </Typography>
                             )
                         }
                         action={editionEnabled ?
@@ -129,9 +138,6 @@ const BoardTask = (props) => {
                             ) :
                             (
                                 <React.Fragment>
-                                    <IconButton color="primary" onClick={enableEdition}>
-                                        <EditIcon />
-                                    </IconButton>
                                     <IconButton color="secondary" onClick={() => deleteTask(props.task.id)}>
                                         <DeleteIcon />
                                     </IconButton>

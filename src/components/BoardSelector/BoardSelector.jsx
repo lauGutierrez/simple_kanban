@@ -24,6 +24,7 @@ const BoardSelector = (props) => {
 
     useEffect(() => {
         showAllBoards();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -32,6 +33,7 @@ const BoardSelector = (props) => {
                 actions.boardActions.resetBoards()
             );
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const showAllBoards = () => {

@@ -31,12 +31,16 @@ const Header = (props) => {
         navigate(paths.login);
     }
 
+    const goHome = () => {
+        navigate(paths.home);
+    }
+
     return (
         <AppBar position="static">
             <Toolbar>
                 <Grid container spacing={2} direction="row" justifyContent="space-between" alignItems="center">
                     <Grid item>
-                        <Typography variant="h6">
+                        <Typography variant="h6" className="app-name" onClick={goHome}>
                             {t('app-name')}
                         </Typography>
                     </Grid>

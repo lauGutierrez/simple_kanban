@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 
@@ -32,6 +31,13 @@ const BoardCard = (props) => {
     const [editionEnabled, setEditionEnabled] = useState(false);
     const [name, setName] = useState(props.board.name);
     const [description, setDescription] = useState(props.board.description);
+
+    useEffect(() => {
+        if (editionEnabled) {
+            document.getElementById(`board-name-${props.board.id}`).focus();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editionEnabled]);
 
 
     const updateBoard = (id, name, description) => {
@@ -57,6 +63,10 @@ const BoardCard = (props) => {
         navigate(paths.board.replace(":boardId", id));
     }
 
+    const enableEdition = () => {
+        setEditionEnabled(true);
+    }
+
     return (
         <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
             <Card className="board-card">
@@ -64,7 +74,7 @@ const BoardCard = (props) => {
                     avatar={<Avatar className="board-card-avatar">{props.board.name.charAt(0)}</Avatar>}
                     title={editionEnabled ?
                         (
-                            <TextField id={`name-${props.board.id}`}
+                            <TextField id={`board-name-${props.board.id}`}
                                 label={t('name-field')}
                                 variant="standard"
                                 value={name}
@@ -73,7 +83,9 @@ const BoardCard = (props) => {
 
                         ) :
                         (
-                            props.board.name
+                            <Typography onClick={enableEdition}>
+                                {props.board.name}
+                            </Typography>
                         )
                     }
                     subheader={`${t('created-at')} ${props.board.created}`}
@@ -92,9 +104,6 @@ const BoardCard = (props) => {
                         ):
                         (
                             <React.Fragment>
-                                <IconButton color="primary" onClick={() => setEditionEnabled(true)}>
-                                    <EditIcon />
-                                </IconButton>
                                 <IconButton color="secondary" onClick={() => deleteBoard(props.board.id)}>
                                     <DeleteIcon />
                                 </IconButton>
@@ -114,7 +123,7 @@ const BoardCard = (props) => {
 
                         ):
                         (
-                            <Typography variant="h5"
+                            <Typography variant="h5" onClick={enableEdition}
                                 className="board-card-description">
                                 {props.board.description}
                             </Typography>

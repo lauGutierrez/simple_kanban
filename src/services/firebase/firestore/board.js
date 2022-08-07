@@ -53,25 +53,37 @@ const deleteBoard = (id) => {
     });
 }
 
-const reorderColumn = (boardId, afterColumnId, columnId) => {
+const reorderColumn = (boardId, afterColumnId, targetColumnId) => {
     getBoardById(boardId, async (boardId, data) => {
         let columns = data.columns.filter(
-            (columnId) => columnId !== columnId
+            (columnId) => columnId !== targetColumnId
         );
         columns.splice(
             columns.indexOf(afterColumnId) + 1,
             0,
-            columnId
+            targetColumnId
         );
         columnOperations.updateBoardColumns(boardId, columns);
     });
 }
 
-export default {
+const updateBoardColumns = async (boardId, columnRefs) => {
+
+    await database.collection(collectionTags.BOARD).doc(boardId).update(
+        {
+            'columns': columnRefs
+        }
+    );
+}
+
+const boardOperations = {
     getAllBoards,
     getBoardById,
     createBoard,
     updateBoard,
     deleteBoard,
-    reorderColumn
+    reorderColumn,
+    updateBoardColumns
 }
+
+export default boardOperations;

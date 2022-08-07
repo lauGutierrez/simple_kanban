@@ -22,7 +22,8 @@ const createUserIfNoExists = (id, email, name) => {
     );
 }
 
-
-export default {
+const userOperations = {
     createUserIfNoExists
 }
+
+export default userOperations;

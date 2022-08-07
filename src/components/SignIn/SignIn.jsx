@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import './SignIn.scss';
 
@@ -41,20 +40,6 @@ const SignIn = (props) => {
         ]
     };
 
-    const currentUser = useSelector(state => state.user);
-
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                setCurrentUser(
-                    user.multiFactor.user.uid,
-                    user.multiFactor.user.email,
-                    user.multiFactor.user.displayName
-                );
-            }
-        });
-    }, []);
-
     const setCurrentUser = (id, email, name) => {
         dispatch(actions.userActions.signIn({
             id: id,
@@ -64,28 +49,25 @@ const SignIn = (props) => {
         navigate(props.redirectTo);
     }
     
-    if (Object.keys(currentUser).length !== 0) {
-        return null;
-    } else {
-        return (
-            <div className="sign-in">
-                <Grid
-                    container
-                    spacing={1}
-                    align="center"
-                    justify="center"
-                    direction="row">
-                    <Grid item xs={12}>
-                        <Typography variant="h1" component="h1" className="app-name">
-                            {t('app-name')}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                    </Grid>
+    return (
+        <div className="sign-in-container">
+            <Grid
+                container
+                spacing={1}
+                align="center"
+                justify="center"
+                direction="row">
+                <Grid item xs={12}>
+                    <Typography variant="h1" component="h1" className="app-name">
+                        {t('app-name')}
+                    </Typography>
                 </Grid>
-            </div>
-        );
-    }
+                <Grid item xs={12}>
+                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                </Grid>
+            </Grid>
+        </div>
+    );
 }
+
 export default SignIn;

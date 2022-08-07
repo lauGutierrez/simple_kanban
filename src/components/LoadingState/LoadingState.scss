@@ -1,0 +1,12 @@
+.loading-container {
+    display: grid !important;
+    width: 100% !important;
+    height: 100% !important;
+    align-items: center;
+    justify-items: center;
+
+    span {
+        width: 80px !important;
+        height: 80px !important;
+    }
+}

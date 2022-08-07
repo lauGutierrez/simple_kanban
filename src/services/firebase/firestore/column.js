@@ -50,14 +50,23 @@ const updateColumnTasks = async (columnId, taskRefs) => {
     );
 }
 
-const createColumn = async (name) => {
-    const doc = await database.collection(collectionTags.COLUMN).add(
+const createColumn = async (boardId, name) => {
+    const columnDoc = await database.collection(collectionTags.COLUMN).add(
         {
             'name': name,
             'tasks': []
         }
     );
-    return doc.id;
+
+    boardOperations.getBoardById(boardId, (id, data) => {
+        let columns = [
+            ...data.columns,
+            columnDoc.id
+        ];
+        boardOperations.updateBoardColumns(boardId, columns);
+
+    });
+    return columnDoc.id;
 }
 
 const createTask = async (columnId, name) => {
@@ -139,7 +148,7 @@ const addTaskToColumn = (columnId, taskId, afterTaskId) => {
     });
 }
 
-export default {
+const columnOperations = {
     getAllColumnsInBoard,
     getAllTasksInColumn,
     updateBoardColumns,
@@ -154,3 +163,5 @@ export default {
     deleteTaskFromColumn,
     addTaskToColumn
 }
+
+export default columnOperations;
