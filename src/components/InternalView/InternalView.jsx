@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './InternalView.scss';
 import Header from '../Header/Header';
 
-import { useTranslation } from 'react-i18next';
-
 const InternalView = (props) => {
-    const { t } = useTranslation();
-    
     return (
         <React.Fragment>
             <Header></Header>

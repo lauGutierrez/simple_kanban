@@ -59,10 +59,12 @@ const reorderColumn = (afterId, columnId) => {
     }
 }
 
-export default {
+const selectedBoardActions = {
     setSelectedBoard,
     resetSelectedBoard,
     addColumnToBoard,
     deleteColumnFromBoard,
     reorderColumn
-}
+};
+
+export default selectedBoardActions;

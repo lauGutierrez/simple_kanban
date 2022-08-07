@@ -18,7 +18,9 @@ const signOut = () => {
     }
 }
 
-export default {
+const userActions = {
     signIn,
     signOut
-}
+};
+
+export default userActions;

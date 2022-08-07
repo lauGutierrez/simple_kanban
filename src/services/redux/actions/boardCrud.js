@@ -45,9 +45,11 @@ const resetBoards = () => {
     }
 }
 
-export default {
+const boardCrud = {
     addBoard,
     updateBoard,
     deleteBoard,
     resetBoards
-}
+};
+
+export default boardCrud;

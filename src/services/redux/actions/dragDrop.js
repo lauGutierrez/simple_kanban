@@ -14,7 +14,9 @@ const disableDragDrop = () => {
     }
 }
 
-export default {
+const dragDropActions = {
     enableDragDrop,
     disableDragDrop
-}
+};
+
+export default dragDropActions;

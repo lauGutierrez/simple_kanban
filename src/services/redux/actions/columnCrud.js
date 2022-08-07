@@ -105,7 +105,7 @@ const reorderTask = (fromColumnId, toColumnId, taskId, afterTaskId) => {
     }
 }
 
-export default {
+const columnCrudActions = {
     addColumn,
     updateColumn,
     deleteColumn,
@@ -114,4 +114,6 @@ export default {
     updateTask,
     deleteTask,
     reorderTask
-}
+};
+
+export default columnCrudActions;
