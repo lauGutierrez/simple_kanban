@@ -1,22 +1,23 @@
-import './SimpleKanbanApp.scss';
 
 import { useSelector, useDispatch } from 'react-redux';
 import React, { Suspense, useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { firebase } from '../services/firebase/firebase';
+import { firebase } from '../../services/firebase/firebase';
 import 'firebase/compat/auth';
 
-import paths from '../router/paths';
-import actions from '../services/redux/actions/actions';
+import '../../css/app.scss';
 
-import LoadingState from '../components/LoadingState/LoadingState';
-import SignIn from '../components/SignIn/SignIn';
-import Home from '../components/Home/Home';
-import BoardEditor from '../components/BoardEditor/BoardEditor';
+import paths from '../../router/paths';
+import actions from '../../services/redux/actions/actions';
+
+import LoadingState from '../LoadingState/LoadingState';
+import SignIn from '../SignIn/SignIn';
+import Home from '../Home/Home';
+import BoardEditor from '../BoardEditor/BoardEditor';
 
 // eslint-disable-next-line
-import i18n from '../i18n/i18n';
+import i18n from '../../i18n/i18n';
 
 const SimpleKanbanApp = () => {
   const dispatch = useDispatch();

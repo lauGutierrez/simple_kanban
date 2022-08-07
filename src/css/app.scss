@@ -1,0 +1,45 @@
+@import './vars.scss';
+
+html, body, #root {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    background-color: $lightest-color !important;
+}
+
+.MuiButton-containedPrimary{
+    background-color: $darkest-color !important;
+}
+
+.MuiButton-textPrimary{
+    color: $main-color !important;
+    font-weight: bold !important;
+}
+
+.MuiButton-containedSecondary{
+    background-color: $danger-color !important;
+}
+
+.MuiButton-textSecondary {
+    color: $danger-color !important;
+    font-weight: bold !important;
+}
+
+.MuiIconButton-colorSecondary {
+    color: $danger-color  !important;
+}
+
+.action-buttons-container {
+    text-align: end;
+}
+
+.MuiCardHeader-title {
+    font-size: 1rem !important;
+}
+
+.dragover {
+    background-color: $lighter-color !important;
+}
+
