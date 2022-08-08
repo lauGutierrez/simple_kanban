@@ -6,6 +6,7 @@ import './BoardTask.scss';
 
 import actions from '../../services/redux/actions/actions';
 import operations from '../../services/firebase/firestore/operations';
+import sessionKeys from '../../const/session';
 
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
@@ -51,26 +52,29 @@ const BoardTask = (props) => {
     }
 
     const onDragStart = (event, taskId) => {
-        event.dataTransfer.setData("taskId", taskId);
-        event.dataTransfer.setData("columnId", null);
+        sessionStorage.setItem(sessionKeys.DRAG_DROP_TASK, taskId);
+    }
+
+    const resetDragDropData = () => {
+        sessionStorage.removeItem(sessionKeys.DRAG_DROP_TASK);
     }
 
     const allowDrop = (event) => {
-        let taskId = event.dataTransfer.getData("taskId");
+        let taskId = sessionStorage.getItem(sessionKeys.DRAG_DROP_TASK);
         if (taskId) {
             event.preventDefault();
             event.target.classList.add("dragover");
         }
     }
 
-    const resetDrop = (event) => {
+    const resetDropArea = (event) => {
         event.target.classList.remove("dragover");
     }
 
     const dropTask = (event) => {
         event.preventDefault();
 
-        let taskId = event.dataTransfer.getData("taskId");
+        let taskId = sessionStorage.getItem(sessionKeys.DRAG_DROP_TASK);
         let task = document.getElementById(taskId);
         let dragColumnId = task.closest('.board-column').id;
 
@@ -90,6 +94,7 @@ const BoardTask = (props) => {
                 afterTaskId 
             )
         );
+        resetDragDropData();
     }
 
     const enableEdition = () => {
@@ -108,7 +113,8 @@ const BoardTask = (props) => {
                 <Card id={props.task.id}
                     className="board-column-task"
                     draggable={draggable}
-                    onDragStart={(event) => onDragStart(event, props.task.id)}>
+                    onDragStart={(event) => onDragStart(event, props.task.id)}
+                    onDragEnd={resetDragDropData}>
                     <CardHeader
                         className="board-column-task-header"
                         title={editionEnabled ?
@@ -149,7 +155,7 @@ const BoardTask = (props) => {
                 <div id={`after-${props.task.id}`}
                     className="between-tasks"
                     onDragOver={allowDrop}
-                    onDragLeave={resetDrop}
+                    onDragLeave={resetDropArea}
                     onDrop={dropTask}></div>
             </React.Fragment>
         );
@@ -157,7 +163,7 @@ const BoardTask = (props) => {
         return (
             <div className="between-tasks"
                 onDragOver={allowDrop}
-                onDragLeave={resetDrop}
+                onDragLeave={resetDropArea}
                 onDrop={dropTask}></div>
         );
     }

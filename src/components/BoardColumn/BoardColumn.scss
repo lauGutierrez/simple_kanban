@@ -4,7 +4,7 @@
     display: flex !important;
     flex-direction: column !important;
     height: 100%;
-    min-width: 250px;
+    min-width: 300px;
 }
 
 .board-column-header {
@@ -16,6 +16,7 @@
     height: 90%;
     overflow-y: auto;
     min-height: 300px;
+    padding-top: 0px !important;
 }
 
 .between-columns {

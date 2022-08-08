@@ -6,6 +6,7 @@ import './BoardColumn.scss';
 
 import actions from '../../services/redux/actions/actions';
 import operations from '../../services/firebase/firestore/operations';
+import sessionKeys from '../../const/session';
 
 import BoardTask from '../BoardTask/BoardTask';
 
@@ -66,24 +67,30 @@ const BoardColumn = (props) => {
     }
 
     const onDragStart = (event, columnId) => {
-        event.dataTransfer.setData("columnId", columnId);
+        if (!sessionStorage.getItem(sessionKeys.DRAG_DROP_TASK)) {
+            sessionStorage.setItem(sessionKeys.DRAG_DROP_COLUMN, columnId);
+        }
+    }
+
+    const resetDragDropData = () => {
+        sessionStorage.removeItem(sessionKeys.DRAG_DROP_COLUMN);
     }
 
     const allowDrop = (event) => {
-        let taskId = event.dataTransfer.getData("taskId");
-        if (!taskId) {
+        if (!sessionStorage.getItem(sessionKeys.DRAG_DROP_TASK)) {
             event.preventDefault();
             event.target.classList.add("dragover");
         }
     }
 
-    const resetDrop = (event) => {
+    const resetDropArea = (event) => {
         event.target.classList.remove("dragover");
     }
 
     const dropColumn = (event) => {
         event.preventDefault();
-        let columnId = event.dataTransfer.getData("columnId");
+
+        let columnId = sessionStorage.getItem(sessionKeys.DRAG_DROP_COLUMN);
         let column = document.getElementById(columnId);
         let betweenColumns = document.getElementById(`after-${columnId}`);
         let afterColumnId = event.target.id.split('-')[1];
@@ -99,6 +106,7 @@ const BoardColumn = (props) => {
         }
         operations.boardOperations.reorderColumn(afterColumnId, columnId);
         dispatch(actions.selectedBoardActions.reorderColumn(board.id, afterColumnId, columnId));
+        resetDragDropData();
     }
 
     const enableEdition = () => {
@@ -116,7 +124,8 @@ const BoardColumn = (props) => {
             <Card id={props.column.id}
                 className="board-column"
                 draggable={draggable}
-                onDragStart={(event) => onDragStart(event, props.column.id)}>
+                onDragStart={(event) => onDragStart(event, props.column.id)}
+                onDragEnd={resetDragDropData}>
                 <CardHeader
                     className="board-column-header"
                     title={editionEnabled ?
@@ -182,7 +191,7 @@ const BoardColumn = (props) => {
             <div id={`after-${props.column.id}`} 
                 className="between-columns"
                 onDragOver={allowDrop}
-                onDragLeave={resetDrop}
+                onDragLeave={resetDropArea}
                 onDrop={dropColumn}></div>
         </React.Fragment>
     );
