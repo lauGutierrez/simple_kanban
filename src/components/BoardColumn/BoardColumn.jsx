@@ -20,7 +20,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 
 const BoardColumn = (props) => {
@@ -156,7 +156,7 @@ const BoardColumn = (props) => {
                         (
                             <React.Fragment>
                                 <IconButton color="secondary" onClick={() => deleteColumn(props.column.id)}>
-                                    <DeleteIcon />
+                                    <ClearIcon />
                                 </IconButton>
                             </React.Fragment>
                         )

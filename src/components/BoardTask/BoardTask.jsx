@@ -14,7 +14,7 @@ import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 
 const BoardTask = (props) => {
@@ -145,7 +145,7 @@ const BoardTask = (props) => {
                             (
                                 <React.Fragment>
                                     <IconButton color="secondary" onClick={() => deleteTask(props.task.id)}>
-                                        <DeleteIcon />
+                                        <ClearIcon />
                                     </IconButton>
                                 </React.Fragment>
                             )

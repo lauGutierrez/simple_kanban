@@ -10,11 +10,15 @@
 .board-column-header {
     background-color: $darker-color;
     color: white !important;
+
+    .MuiIconButton-root {
+        color: white !important;
+    }
 }
 
 .board-column-content {
     height: 90%;
-    overflow-y: auto;
+    overflow-y: auto !important;
     min-height: 300px;
     padding-top: 0px !important;
 }
