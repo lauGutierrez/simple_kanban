@@ -21,6 +21,10 @@
     overflow-y: auto !important;
     min-height: 300px;
     padding-top: 0px !important;
+
+    .MuiGrid-container {
+        display: block;
+    }
 }
 
 .between-columns {
