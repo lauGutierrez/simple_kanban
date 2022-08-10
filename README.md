@@ -1,68 +1,111 @@
-# Simple Trello-like Kanban
+# Simple Kanban
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+## About this project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### What is it?
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+A very simple web application, where you will be able to create boards containing columns, each column containing tasks. It is perfect to apply the *Kanban* management method.
 
-### `npm test`
+### Purpose
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Created as a practice in the context of the [GeeksHubs Academy's Frontend React Developer](https://geekshubsacademy.com/producto/frontend-react/) Bootcamp.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Overview
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Features briefing
 
-### `npm run eject`
+This is what is included:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* **Sign up and sign in with email and password**. You can create as many users as needed and login into the application with a specific user.
+* **Available in English and Spanish**. Language is auto-detected from the browser.
+* **Create boards with title and description**. Create as many boards as required.
+* **Create columns with a name**. Create as many columns as required within a board and reorder them.
+* **Create tasks with a description**. Create as many tasks as required and reorder them (within a column or between columns).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Main dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+In this section the main dependencies of this project are highlighted.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Package                                                      | Purpose                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [@mui/material](https://www.npmjs.com/package/@mui/material) | A library of *React UI* components used to build the interface. |
+| [redux](https://www.npmjs.com/package/redux)<br />[react-redux](https://www.npmjs.com/package/react-redux) | A library used to apply a pattern to manage the state of the application in a centralized way, instead of creating an individual state for each component. |
+| [react-router-dom](https://www.npmjs.com/package/react-router-dom) | A routing library used to configure the navigation within the application without reloads |
+| [i18next](https://www.npmjs.com/package/i18next)<br />[i18next-browser-languagedetector](https://www.npmjs.com/package/i18next-browser-languagedetector) | A framework used for internationalization. This way the application can be displayed in Spanish or English, depending on the language detected in the browser. |
+| [firebase](https://www.npmjs.com/package/firebase)           | Used to access the *Cloud Firestore*, which provides a No-SQL cloud database. This way all the information introduced in the application can be saved without the need of a backend. |
+| [react-firebaseui](https://www.npmjs.com/package/react-firebaseui) | A wrapper used to easily include the sign-up and sign-in view over the *FirebaseUI Auth* utility |
+|                                                              |                                                              |
 
-## Learn More
+### How the application looks
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Follow these steps to test the application:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. If you don't want to sign up, you can sign in with this available credentials [here](https://laura-simple-kanban.herokuapp.com/login).
 
-### Code Splitting
+   ``user: laura@test.com``
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ``password: 123456``
 
-### Analyzing the Bundle Size
+2. You can **sign up** by entering your email address and preferred password [here](https://laura-simple-kanban.herokuapp.com/login).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   ![sign_up](./doc/images/sign_up_email_address.png)
 
-### Making a Progressive Web App
+   ![sign_up](./doc/images/sign_up_password.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+3. In the home view, you can **create new boards** by clicking on the *New* button. You can always **return to the home view** by clicking in the application name located to the left of the header bar. To the right of the header bar, there is a button to **sign out**.
 
-### Advanced Configuration
+   ![sign_up](./doc/images/board_selector_empty.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+4. All existing boards are displayed in this view. In order to **delete a board**, you must click on the cross icon button. To **edit the name and description** of a board, just click on the corresponding label. To **open the board**, click on the *Open board* button at the bottom of the board card.
 
-### Deployment
+![sign_up](./doc/images/board_cards.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+![sign_up](./doc/images/edit_board.png)
 
-### `npm run build` fails to minify
+1. Once the board is opened, you can **create new columns** by clicking on the *New column* button. In order to **delete a column**, you must click on the cross icon button close to the column name. You can **edit the name** of a column by clicking on the corresponding label. ![sign_up](./doc/images/board_columns.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. To **create new tasks**, you should click on the *Add task* button at the bottom of the column. In order to **delete a board**, you must click on the cross icon button close to the task description. You can **edit the description** of a task by clicking on the corresponding label.
+
+   ![sign_up](./doc/images/board_tasks.png)
+
+3. It is possible to **drag and drop columns** to reorder them. The droppable area is highlighted in blue while dragging.
+
+   ![sign_up](./doc/images/drag_drop_column.png)
+
+4. It is possible to **drag and drop tasks** to reorder them. The droppable area is highlighted in blue while dragging. Be aware that tasks can be moved between columns too.
+
+   ![sign_up](./doc/images/drag_drop_task.png)
+
+   
+
+## How to execute
+
+### Local environment
+
+After downloading this repository, in the project directory you can run:
+
+#### `npm start`
+
+This will run the application in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+### Deployed version
+
+This project has been deployed with the help of *Heroku* and is accessible here:
+
+#### `https://laura-simple-kanban.herokuapp.com/`
+
+
+
+## Improvements
+
+Este apartado está dirigido al profesor que revise el ejercicio. De cara a mejorar la aplicación tengo algunas dudas:
+
+1. **Herencia**. En el curso no se ha explicado bien cómo hacer herencia o poder reutilizar código para componentes parecidos. Tengo entendido que para React no se recomienda en muchos casos hacer una herencia estándar (lo que sería que un componente de clase extienda de otro). En el ejercicio el componente *BoardColumn* y *BoardTask* son bastante parecidos pero no tengo claro como poder reutilizar el código común.
+2. **Redux en conjunto con una base de datos.** En el ejercicio he añadido *Firebase* para hacer un poco más real la aplicación y tener realmente que guardar los datos y recuperarlos de una base de datos. Esto, en relación al estado global que se maneja con redux me plantea una pregunta: ¿Hay buenas prácticas o recomendaciones a la hora de actualizar el estado de la aplicación teniendo en cuenta que esos datos también se están guardando en una base de datos? Me refiero por ejemplo a la hora de invocar la acción que actualiza el estado, si siempre antes de eso habría que realizar la operación en la base de datos y acto seguido actualizar el estado, o a la inversa.
+3. **Modelo de datos en el estado de la aplicación**. Esta aplicación es muy sencilla y cada modelo (tablero, columna, tarea) tiene pocos datos (nombre y descripción). Pero en un caso real se pueden manejar un montón de parámetros. Dado que en el estado se representa todo en formato JSON, no sé si existe alguna buena práctica para favorecer la claridad y mantenibilidad del código, por ejemplo crear una clase en Javascript sin funciones que solo contenga los atributos que tendría un JSON dentro del estado (por ejemplo la clase tablero, columna y tarea con sus atributos). Así se podría ubicar fácilmente dentro del código cuales son todos los posibles atributos de ese modelo y a la hora de definir las acciones y el *reducer*, usar siempre una instancia de esa clase en lugar de manejar los atributos sueltos.
+
+
